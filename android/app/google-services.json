@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:623855632054:android:8d432c435dc28b5eec7017",
+        "mobilesdk_app_id": "1:623855632054:android:534b3aa734e96d10ec7017",
         "android_client_info": {
-          "package_name": "com.automatik.automatikusersapp"
+          "package_name": "com.capstone.automatikcustomersapp"
         }
       },
       "oauth_client": [
@@ -37,7 +37,7 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:623855632054:android:f55ba1b2b60644adec7017",
+        "mobilesdk_app_id": "1:623855632054:android:84bf36a349bcbedcec7017",
         "android_client_info": {
           "package_name": "com.capstone.automatiktechnicianapp"
         }
