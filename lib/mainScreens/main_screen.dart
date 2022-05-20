@@ -3,7 +3,9 @@ import 'package:automatik_users_app/global/global.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 import '../assistants/assistant_methods.dart';
+import '../infoHandler/app_info.dart';
 import '../widgets/my_drawer.dart';
 
 
@@ -53,7 +55,7 @@ class _MainScreenState extends State<MainScreen>
     
     newGoogleMapController!.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
-    String humanRedableAddress = await AssistantMethods.searchAddressForGographicCoordinates(customerCurrentPosition!);
+    String humanRedableAddress = await AssistantMethods.searchAddressForGographicCoordinates(customerCurrentPosition!, context);
     print("This is your address = " + humanRedableAddress);
   }
 
@@ -150,7 +152,10 @@ class _MainScreenState extends State<MainScreen>
                                   fontSize: 14,
                                 )
                               ),
-                              Text("Your current location",
+                              Text(
+                                  Provider.of<AppInfo>(context).customerCurrentLocation != null
+                                  ? (Provider.of<AppInfo>(context).customerCurrentLocation!.locationName!).substring(0, 36) + "..."
+                                      : "Not getting address.",
                                   style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 18,
@@ -170,39 +175,39 @@ class _MainScreenState extends State<MainScreen>
                       const SizedBox(height: 10),
 
                       //use different location
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.add_location_alt_outlined,
-                            color: Colors.grey,
-                          ),
-                          const SizedBox(width: 12),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text("Select different location",
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 14,
-                                  )
-                              ),
-                              Text("Where to go?",
-                                  style: const TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 18,
-                                  )
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      const Divider(
-                        height: 1,
-                        thickness: 1,
-                        color: Colors.grey,
-                      ),
-                      const SizedBox(height: 10),
+                      // Row(
+                      //   children: [
+                      //     const Icon(
+                      //       Icons.add_location_alt_outlined,
+                      //       color: Colors.grey,
+                      //     ),
+                      //     const SizedBox(width: 12),
+                      //     Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       children: [
+                      //         const Text("Select different location",
+                      //             style: TextStyle(
+                      //               color: Colors.grey,
+                      //               fontSize: 14,
+                      //             )
+                      //         ),
+                      //         Text("Where to go?",
+                      //             style: const TextStyle(
+                      //               color: Colors.grey,
+                      //               fontSize: 18,
+                      //             )
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ],
+                      // ),
+                      // const SizedBox(height: 10),
+                      // const Divider(
+                      //   height: 1,
+                      //   thickness: 1,
+                      //   color: Colors.grey,
+                      // ),
+                      // const SizedBox(height: 10),
 
 
                       ElevatedButton(

@@ -1,14 +1,16 @@
 import 'package:automatik_users_app/assistants/request_assistant.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 import '../global/global.dart';
 import '../global/map_key.dart';
+import '../infoHandler/app_info.dart';
+import '../models/directions.dart';
 import '../models/user_model.dart';
 
 class AssistantMethods
 {
-  static Future<String> searchAddressForGographicCoordinates(Position position) async
+  static Future<String> searchAddressForGographicCoordinates(Position position, context ) async
   {
     String apiUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=$mapKey";
     String humanRedableAddress = "";
@@ -17,6 +19,13 @@ class AssistantMethods
     if(requestResponse != "Error Occured. Failed, no response.")
     {
       humanRedableAddress = requestResponse["results"][0]["formatted_address"];
+
+      Directions customerCurrentAddress = Directions();
+      customerCurrentAddress.locationLatitude = position.latitude;
+      customerCurrentAddress.locationLongitude = position.longitude;
+      customerCurrentAddress.locationName = humanRedableAddress;
+
+      Provider.of<AppInfo>(context, listen: false).updateCurentLocationAddress(customerCurrentAddress);
     }
     return humanRedableAddress;
   }
