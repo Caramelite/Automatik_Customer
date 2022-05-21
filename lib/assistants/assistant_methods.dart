@@ -18,6 +18,10 @@ class AssistantMethods
     var requestResponse = await RequestAssistant.receivedRequest(apiUrl);
     if(requestResponse != "Error Occured. Failed, no response.")
     {
+      // if (requestResponse != null && requestResponse.length != 0){
+      //   humanRedableAddress = requestResponse["results"][0]["formatted_address"];
+      // }
+
       humanRedableAddress = requestResponse["results"][0]["formatted_address"];
 
       Directions customerCurrentAddress = Directions();

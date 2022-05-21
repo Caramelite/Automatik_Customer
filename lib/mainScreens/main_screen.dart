@@ -34,6 +34,10 @@ class _MainScreenState extends State<MainScreen>
   LocationPermission? _locationPermission;
   double bottomPaddingOfMap = 0;
 
+  // String userName = "Name";
+  // String userEmail = "Email";
+
+
   checkIfLocationPermissionAllowed() async
   {
     _locationPermission = await Geolocator.requestPermission();
@@ -57,6 +61,12 @@ class _MainScreenState extends State<MainScreen>
 
     String humanRedableAddress = await AssistantMethods.searchAddressForGographicCoordinates(customerCurrentPosition!, context);
     print("This is your address = " + humanRedableAddress);
+
+    // userName = customerModelCurrentInfo!.name!;
+    // userEmail = customerModelCurrentInfo!.email!;
+    //
+    // print("name = " + userName);
+    // print("email = " + userEmail);
   }
 
 
@@ -154,7 +164,7 @@ class _MainScreenState extends State<MainScreen>
                               ),
                               Text(
                                   Provider.of<AppInfo>(context).customerCurrentLocation != null
-                                  ? (Provider.of<AppInfo>(context).customerCurrentLocation!.locationName!).substring(0, 36) + "..."
+                                  ? (Provider.of<AppInfo>(context).customerCurrentLocation!.locationName!).substring(0, 24) + "..."
                                       : "Not getting address.",
                                   style: const TextStyle(
                                     color: Colors.grey,
