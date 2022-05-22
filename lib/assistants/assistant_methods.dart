@@ -29,7 +29,8 @@ class AssistantMethods
       customerCurrentAddress.locationLongitude = position.longitude;
       customerCurrentAddress.locationName = humanRedableAddress;
 
-      Provider.of<AppInfo>(context, listen: false).updateCurentLocationAddress(customerCurrentAddress);
+      Provider.of<AppInfo>(context, listen: false)
+          .updateCurentLocationAddress(customerCurrentAddress);
     }
     return humanRedableAddress;
   }
