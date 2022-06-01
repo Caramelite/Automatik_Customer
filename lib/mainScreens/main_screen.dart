@@ -1,13 +1,16 @@
 import 'dart:async';
 import 'package:automatik_users_app/global/global.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import '../assistants/assistant_methods.dart';
 import '../assistants/geofire_assistant.dart';
 import '../infoHandler/app_info.dart';
+import '../main.dart';
 import '../models/active_nearby_available_technician.dart';
 import '../widgets/my_drawer.dart';
 
@@ -39,10 +42,14 @@ class _MainScreenState extends State<MainScreen> {
   // String userName = "Name";
   // String userEmail = "Email";
 
+  Set<Polyline> polyLineSet = {};
+
   Set<Marker> markersSet = {};
   Set<Circle> circlesSet = {};
 
   bool activeNearbyTechnicianKeysLoaded = false;
+
+  List<ActiveNearbyAvailableTechnician> onlineNearbyAvailableTechnicianList = [];
 
 
   checkIfLocationPermissionAllowed() async
@@ -89,6 +96,50 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
 
     checkIfLocationPermissionAllowed();
+  }
+
+  saveRequestInformation()
+  {
+    //save the request Information
+    onlineNearbyAvailableTechnicianList = GeofireAssistant.activeNearbyAvailableTechnicianList;
+    searchNearestOnlineTechnician();
+  }
+
+  searchNearestOnlineTechnician()
+  async {
+    if(onlineNearbyAvailableTechnicianList.length == 0)
+    {
+      //cancel/delete the request
+
+      setState(() {
+        polyLineSet.clear();
+        markersSet.clear();
+        circlesSet.clear();
+      });
+      Fluttertoast.showToast(msg: "No online nearest technician available");
+      Fluttertoast.showToast(msg: "Restarting App Now");
+
+      Future.delayed(const Duration(milliseconds: 4000), (){
+        MyApp.restartApp(context);
+      });
+      return ;
+    }
+
+    await retrieveOnlineTechniciansInformation(onlineNearbyAvailableTechnicianList);
+  }
+
+  retrieveOnlineTechniciansInformation(List onlineNearestTechnicianList) async
+  {
+    DatabaseReference ref = FirebaseDatabase.instance.ref().child("technician");
+    for(int i = 0; i < onlineNearestTechnicianList.length; i++)
+    {
+      await ref.child(onlineNearestTechnicianList[i].key.toString()).once().then((dataSnapshot)
+      {
+        var techncianKeyInfo = dataSnapshot.snapshot.value;
+        tList.add(techncianKeyInfo);
+        print("TechnicianKey Information = " + tList.toString());
+      });
+    }
   }
 
   @override
@@ -240,8 +291,16 @@ class _MainScreenState extends State<MainScreen> {
 
                         ElevatedButton(
                           child: const Text("Request a Technician",),
-                          onPressed: () {
-
+                          onPressed: ()
+                          {
+                            if(Provider.of<AppInfo>(context, listen: false).customerCurrentLocation != null)
+                            {
+                              saveRequestInformation();
+                            }
+                            else
+                              {
+                                Fluttertoast.showToast(msg: "Please select a specific location");
+                              }
                           },
                           style: ElevatedButton.styleFrom(
                               primary: Colors.green,
