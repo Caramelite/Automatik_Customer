@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'infoHandler/app_info.dart';
 import 'splashScreen/splash_screen.dart';
@@ -12,8 +13,8 @@ void main() async {
       MyApp(
         child : ChangeNotifierProvider(
           create: (context) => AppInfo(),
-          child: MaterialApp(
-            title: 'Technician App',
+          child: GetMaterialApp(
+            title: 'Customer App',
             theme: ThemeData(
             primarySwatch: Colors.blue,
             ),

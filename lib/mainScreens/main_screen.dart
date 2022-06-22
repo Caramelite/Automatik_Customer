@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import '../global/global.dart';
 import '../screens/repair_screen.dart';
-import '../widgets/my_drawer.dart';
+import '../widgets/dimensions.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -12,20 +11,8 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   PageController pageController = PageController(viewportFraction: 0.85);
-  var _currentPageValue = 0.0;
   final double _scaleFactor = 0.8;
-  final double _height = 220;
-
-  @override
-  void initState(){
-    super.initState();
-    pageController.addListener(() {
-      setState(() {
-        _currentPageValue = pageController.page!;
-        //print("Current page value: " + _currentPageValue.toString());
-      });
-    });
-  }
+  final double _height =  Dimensions.pageViewContainer;
 
   @override
   Widget build(BuildContext context) {

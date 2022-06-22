@@ -1,4 +1,7 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/dimensions.dart';
 
 class RepairBodyPage extends StatefulWidget {
   const RepairBodyPage({Key? key}) : super(key: key);
@@ -10,8 +13,8 @@ class RepairBodyPage extends StatefulWidget {
 class _RepairBodyPageState extends State<RepairBodyPage> {
   PageController pageController = PageController(viewportFraction: 0.85);
   var _currentPageValue = 0.0;
-  double _scaleFactor = 0.8;
-  double _height = 220;
+  final double _scaleFactor = 0.8;
+  final double _height = Dimensions.pageViewContainer;
 
   @override
   void initState(){
@@ -19,21 +22,35 @@ class _RepairBodyPageState extends State<RepairBodyPage> {
     pageController.addListener(() {
       setState(() {
         _currentPageValue = pageController.page!;
-        //print("Current page value: " + _currentPageValue.toString());
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 320,
-      child: PageView.builder(
-          controller: pageController,
-          itemCount: 4,
-          itemBuilder: (context, position){
-            return _buildPageItem(position);
-          }),
+    return Column(
+      children: [
+        SizedBox(
+          height: Dimensions.pageView,
+          child: PageView.builder(
+              controller: pageController,
+              itemCount: 4,
+              itemBuilder: (context, position){
+                return _buildPageItem(position);
+              },
+          ),
+        ),
+        SizedBox(height: Dimensions.height20),
+        DotsIndicator(
+          dotsCount: 4,
+          position: _currentPageValue,
+          decorator: DotsDecorator(
+          size: const Size.square(9.0),
+          activeSize: const Size(18.0, 9.0),
+          activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+          ),
+        )
+      ],
     );
   }
 
@@ -44,25 +61,10 @@ class _RepairBodyPageState extends State<RepairBodyPage> {
 
   Widget _buildPageItem(int index)
   {
-    Matrix4 matrix = Matrix4.identity();
-    if(index == _currentPageValue.floor())
-    {
-      var currentScale = 1 - (_currentPageValue - index) * (1 - _scaleFactor);
-      var currentTransformation = _height * (1 - currentScale) / 2;
-      matrix = Matrix4.diagonal3Values(1, currentScale, 1);
-    }
-    else if (index == _currentPageValue.floor()+1){
-      var currentScale = _scaleFactor + (_currentPageValue - index + 1) * (1 + _scaleFactor);
-      var currentTransformation = _height * (1 - currentScale) / 2;
-      matrix = Matrix4.diagonal3Values(1, currentScale, 1);
-    }
-
-    return Transform(
-      transform: matrix,
-      child: Stack(
+      return Stack(
           children: [
             Container(
-              height: 220,
+              height: Dimensions.pageViewContainer,
               margin: const EdgeInsets.only(left: 10, right: 10),
               decoration:  BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
@@ -76,27 +78,35 @@ class _RepairBodyPageState extends State<RepairBodyPage> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                height: 115,
-                margin: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
+                height: Dimensions.pageViewTextContainer,
+                margin: const EdgeInsets.only(left: 30, right: 30),
                 decoration:  BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  color: Colors.white,
+                  color: Colors.grey,
                 ),
                 child: Container(
                   padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text("Brake Service Repair"),
-                      SizedBox(height: 10),
-                      Text("INFORMATION"),
+                    children: [
+                      const Text("Brake Service Repair"),
+                      SizedBox(height: Dimensions.height10),
+                      const Text("Click for more informartion"),
+                      SizedBox(height: Dimensions.height20),
+                      Row(
+                        children: const [
+                          Icon(Icons.access_time_rounded, color: Colors.red, size: 18),
+                          SizedBox(width: 10),
+                          Text("30 minutes"),
+                        ],
+                      )
                     ],
                   ),
                 ),
               ),
             ),
           ]
-      ),
-    );
+      );
   }
 }
+
