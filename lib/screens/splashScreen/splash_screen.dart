@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../assistants/assistant_methods.dart';
+import '../../assistants/assistant_methods.dart';
+import '../../global/global.dart';
 import '../authentication/login_screen.dart';
-import '../global/global.dart';
-import '../mainScreens/main_screen.dart';
+import '../repair/repair_details.dart';
 
 class MySplashScreen extends StatefulWidget {
   const MySplashScreen({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class _MySplashScreenState extends State<MySplashScreen> {
       if(await fAuth.currentUser != null)
       {
         currentFirebaseUser = fAuth.currentUser;
-        Navigator.push(context, MaterialPageRoute(builder: (c) => const MainScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (c) => const RepairDetails()));
       }
       else
         {

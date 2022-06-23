@@ -3,9 +3,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../global/global.dart';
+import '../../global/global.dart';
+import '../../widgets/progress_dialog.dart';
 import '../splashScreen/splash_screen.dart';
-import '../widgets/progress_dialog.dart';
 import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../screens/repair_screen.dart';
-import '../widgets/dimensions.dart';
+import '../../widgets/dimensions.dart';
+import '../repair/repair_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);

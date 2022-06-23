@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../global/global.dart';
-import '../splashScreen/splash_screen.dart';
+import '../screens/splashScreen/splash_screen.dart';
 
 class MyDrawer extends StatefulWidget {
   String? name;

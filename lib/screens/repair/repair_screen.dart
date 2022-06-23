@@ -1,7 +1,8 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/dimensions.dart';
+import '../../widgets/dimensions.dart';
+import '../../widgets/title_icon_info.dart';
 
 class RepairBodyPage extends StatefulWidget {
   const RepairBodyPage({Key? key}) : super(key: key);
@@ -67,7 +68,7 @@ class _RepairBodyPageState extends State<RepairBodyPage> {
               height: Dimensions.pageViewContainer,
               margin: const EdgeInsets.only(left: 10, right: 10),
               decoration:  BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(18),
                   color: Colors.lightBlue,
                   image: const DecorationImage(
                       fit: BoxFit.cover,
@@ -81,25 +82,28 @@ class _RepairBodyPageState extends State<RepairBodyPage> {
                 height: Dimensions.pageViewTextContainer,
                 margin: const EdgeInsets.only(left: 30, right: 30),
                 decoration:  BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.grey,
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 5.0,
+                      offset: Offset(0, 5),
+                    ),
+                  ],
                 ),
                 child: Container(
-                  padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+                  padding: const EdgeInsets.only(top: 12, left: 15, right: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("Brake Service Repair"),
-                      SizedBox(height: Dimensions.height10),
-                      const Text("Click for more informartion"),
-                      SizedBox(height: Dimensions.height20),
-                      Row(
-                        children: const [
-                          Icon(Icons.access_time_rounded, color: Colors.red, size: 18),
-                          SizedBox(width: 10),
-                          Text("30 minutes"),
-                        ],
-                      )
+                    children:  const [
+                       TitleIconInfo(
+                        text: "Brake Repair Service",
+                         iconColor: Colors.red,
+                         icon: Icons.access_time_rounded,
+                         minutes: ' 30 minutes',
+                      ),
+                      Text("Click for more information")
                     ],
                   ),
                 ),
