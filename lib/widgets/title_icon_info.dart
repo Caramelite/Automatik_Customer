@@ -25,7 +25,7 @@ class TitleIconInfo extends StatelessWidget {
         Row(
           children: [
             Icon(icon, color: iconColor, size: 15),
-            Text(minutes, style: const TextStyle(fontSize: 14)),
+            Text(minutes, style: const TextStyle(fontSize: 14, color: Colors.black)),
           ],
         ),
         const SizedBox(width: 5),

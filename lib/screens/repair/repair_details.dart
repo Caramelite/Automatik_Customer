@@ -1,8 +1,7 @@
 import 'package:automatik_users_app/widgets/app_icon.dart';
 import 'package:automatik_users_app/widgets/dimensions.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
-
+import '../../widgets/expandable_text.dart';
 import '../../widgets/title_icon_info.dart';
 
 class RepairDetails extends StatelessWidget {
@@ -34,15 +33,16 @@ class RepairDetails extends StatelessWidget {
             top: Dimensions.height45,
             left: 10,
             right: Dimensions.width20,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              AppIcon(icon: Icons.arrow_back_ios),
-              AppIcon(icon: Icons.shopping_cart_outlined)
-            ],
-          ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                AppIcon(icon: Icons.arrow_back_ios),
+                AppIcon(icon: Icons.shopping_cart_outlined)
+              ],
+            ),
           ),
           //symptoms
+          //expamdable symptoms details
           Positioned(
             left: 0,
             right: 0,
@@ -68,11 +68,16 @@ class RepairDetails extends StatelessWidget {
                   ),
                   SizedBox(height: Dimensions.height10),
                   const Text("Symptoms : "),
+                  SizedBox(height: Dimensions.height20),
+                   const Expanded(
+                     child: SingleChildScrollView(
+                         child: ExpandableRepairDetails(text: "1. Steering wheel start shaking or vibrating when you apply the brakes. \n2. Screeching, squealing, grinding or ot her awful braking sounds when you press the brake pedal. \n3. Brake pedal goes down to the floor. \n4. Brake warning light is on. \n5. Braking functions require more brake pedal pressure.", ),
+                     ),
+                   ),
                 ],
               ),
             ),
           ),
-          //expamdable symptoms details
         ],
       ),
       bottomNavigationBar: Container(
@@ -97,9 +102,9 @@ class RepairDetails extends StatelessWidget {
               child:  Row(
                 children: [
                   const Icon(Icons.remove, color: Colors.black, size: 15),
-                  SizedBox(width: Dimensions.width20/4),
+                  SizedBox(width: Dimensions.width20/2),
                   const Text("0", style: TextStyle(fontSize: 20, color: Colors.black)),
-                  SizedBox(width: Dimensions.width20/4),
+                  SizedBox(width: Dimensions.width20/2),
                   const Icon(Icons.add, color: Colors.black, size: 15),
                 ],
               ),

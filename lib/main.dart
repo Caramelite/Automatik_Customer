@@ -2,12 +2,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'controllers/repair_details_controller.dart';
 import 'infoHandler/app_info.dart';
 import 'screens/splashScreen/splash_screen.dart';
+import 'global/helper/dependencies.dart' as dependency;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dependency.init();
   await Firebase.initializeApp();
+  Get.find<RepairDetailsController>().getRepairDetailsList();
 
   runApp(
       MyApp(

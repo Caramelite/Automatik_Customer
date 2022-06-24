@@ -33,10 +33,22 @@ class _ExpandableRepairDetailsState extends State<ExpandableRepairDetails> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: secondHalf.isEmpty ? SmallText(text: firstHalf) : Column(
+      child: secondHalf.isEmpty ? SmallText(text: firstHalf, size: 12) : Column(
         children: [
-          SmallText(text : hiddenText ? (firstHalf + "...") : (firstHalf + secondHalf)),
-          
+          SmallText(text : hiddenText ? (firstHalf + "...") : (firstHalf + secondHalf), size: 12, height: 1.5,),
+          InkWell(
+            onTap: () {
+              setState(() {
+                hiddenText = !hiddenText;
+              });
+            },
+            child: Row(
+              children: [
+                SmallText(text: "Show more", color: Colors.blue,),
+                Icon(hiddenText ? Icons.arrow_drop_down : Icons.arrow_drop_up, color: Colors.blue)
+              ],
+            ),
+          )
         ]
       ),
     );

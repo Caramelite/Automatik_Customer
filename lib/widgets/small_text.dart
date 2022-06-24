@@ -7,9 +7,9 @@ class SmallText extends StatelessWidget {
   double height;
 
   SmallText({Key? key,
-    this.color = const Color(0xFF89dad0),
+    this.color = Colors.black,
     required this.text,
-    this.size = 12,
+    this.size = 13,
     this.height = 1.2,
   }) : super(key: key);
 
