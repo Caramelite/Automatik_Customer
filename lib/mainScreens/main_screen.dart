@@ -1,7 +1,7 @@
 import 'package:automatik_users_app/global/global.dart';
+import 'package:automatik_users_app/screens/Authentication%20Screen/Log%20In%20Screen/login_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../authentication/login_screen.dart';
 
 
 class MainScreen extends StatefulWidget {
