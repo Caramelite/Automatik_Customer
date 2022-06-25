@@ -8,6 +8,6 @@ class RepairDetailsRepo extends GetxService
 
   Future<Response> getRepairDetailsList() async
   {
-    return await apiClient.getData("/details");
+    return await apiClient.getData("assets/db.json");
   }
 }

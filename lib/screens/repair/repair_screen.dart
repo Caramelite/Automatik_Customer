@@ -72,7 +72,7 @@ class _RepairBodyPageState extends State<RepairBodyPage> {
                   color: Colors.lightBlue,
                   image: const DecorationImage(
                       fit: BoxFit.cover,
-                      image: AssetImage("images/brake-service-repair.jpg")
+                      image: AssetImage("assets/images/brake-service-repair.jpg")
                   )
               ),
             ),

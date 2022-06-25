@@ -99,7 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Image.asset("images/Logo.png"),
+                child: Image.asset("assets/images/Logo.png"),
               ),
               const SizedBox(height: 10),
               const Text("Register as a Customer",

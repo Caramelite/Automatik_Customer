@@ -1,0 +1,36 @@
+{
+    "details": [
+        {
+            "id": 1,
+            "title": "Brake Repair Service",
+            "info": "1. Steering wheel start shaking or vibrating when you apply the brakes. 2. Screeching, squealing, grinding and other awful breaking sounds when you press the brake pedal. 3. Brake pedal goes down to the floor. 4. Brake warning light is on. 5. Breaking functions require more brake pedal pressure.",
+            "price": 300,
+            "img": "images/brake-service-repair.jpg"
+        },
+        {
+            "id": 2,
+            "title": "Flat Tire Repair Service",
+            "info": "1. Excessive Vibraion. 2. Active tire pressure warning light. 3. Bulging or blistering spots. 4. Noticable sagging/flatness. 5. Penetrating object (nails and srews).",
+            "price": 350,
+            "img": "images/flat-tire.jpeg"
+        },
+        {
+            "id": 3,
+            "title": "Change Oil",
+            "info": "1. Smells burning oil inside the car. 2. Engine noise and knocking (noisy engine). 3. Stalling Engine (it feels like the engine is seizing up from time to time). 4. Service Warning light is on.",
+            "price": 2250,
+            "img": "images/oil-change.jpg"
+        },
+        {
+            "id": 4,
+            "title": "Spark Plug Replacement",
+            "info": "1. The car is hard to start. 2. Engine misfires. 3. The engine idling is rough and noisy. 4. Your car struggles to accelerate. 5. The engine is really loud during normal driving. 6. Your 'check engine' light is on.",
+            "price": 500,
+            "img": "images/Spark-plug-replacement.jpg"
+        },
+        {
+            "total_size": 4,
+            "offset": 0
+        }
+    ]
+}

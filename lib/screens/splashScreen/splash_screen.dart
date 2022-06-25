@@ -44,7 +44,7 @@ class _MySplashScreenState extends State<MySplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset("images/Logo.png"),
+              Image.asset("assets/images/Logo.png"),
               const SizedBox(height: 15),
               const Text("Automatik Booking App",
               style: TextStyle(

@@ -96,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen>
               const SizedBox(height: 30),
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Image.asset("images/Logo.png"),
+                child: Image.asset("assets/images/Logo.png"),
               ),
               const SizedBox(height: 10),
               const Text("Login as a Customer",
