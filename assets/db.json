@@ -1,4 +1,6 @@
 {
+    "total_size": 4,
+    "offset": 0,
     "details": [
         {
             "id": 1,
@@ -27,10 +29,6 @@
             "info": "1. The car is hard to start. 2. Engine misfires. 3. The engine idling is rough and noisy. 4. Your car struggles to accelerate. 5. The engine is really loud during normal driving. 6. Your 'check engine' light is on.",
             "price": 500,
             "img": "images/Spark-plug-replacement.jpg"
-        },
-        {
-            "total_size": 4,
-            "offset": 0
         }
     ]
 }

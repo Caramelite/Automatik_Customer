@@ -16,21 +16,20 @@ class Repair {
     if (json['details'] != null) {
       _details = <RepairDetailsModel>[];
       json['details'].forEach((v) {
-        //_details.add(RepairDetailsModel.fromJson(v));
-        _details!.add(RepairDetailsModel.fromJson(v));
+        details.add(RepairDetailsModel.fromJson(v));
       });
     }
   }
 
-  // Map<String, dynamic> toJson() {
-  //   final Map<String, dynamic> data = new Map<String, dynamic>();
-  //   data['total_size'] = this.totalSize;
-  //   data['offset'] = this.offset;
-  //   if (this.details != null) {
-  //     data['details'] = this.details!.map((v) => v.toJson()).toList();
-  //   }
-  //   return data;
-  // }
+  /*Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['total_size'] = this.totalSize;
+    data['offset'] = this.offset;
+    if (this.details != null) {
+      data['details'] = this.details!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }*/
 }
 
 class RepairDetailsModel {
@@ -50,13 +49,13 @@ class RepairDetailsModel {
     img = json['img'];
   }
 
-  // Map<String, dynamic> toJson() {
-  //   final Map<String, dynamic> data = new Map<String, dynamic>();
-  //   data['id'] = this.id;
-  //   data['title'] = this.title;
-  //   data['info'] = this.info;
-  //   data['price'] = this.price;
-  //   data['img'] = this.img;
-  //   return data;
-  // }
+  /*Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['title'] = this.title;
+    data['info'] = this.info;
+    data['price'] = this.price;
+    data['img'] = this.img;
+    return data;
+  }*/
 }
