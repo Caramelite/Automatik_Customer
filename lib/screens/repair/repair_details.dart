@@ -1,3 +1,4 @@
+import 'package:automatik_users_app/controllers/cart_controller.dart';
 import 'package:automatik_users_app/widgets/app_icon.dart';
 import 'package:automatik_users_app/widgets/dimensions.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class RepairDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var detail = Get.find<RepairDetailsController>().repairDetailsList[pageId];
-    Get.find<RepairDetailsController>().initDetails();
+    Get.find<RepairDetailsController>().initDetails(Get.find<CartController>());
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -134,7 +135,13 @@ class RepairDetails extends StatelessWidget {
                     borderRadius: BorderRadius.circular(Dimensions.radius20),
                     color: Colors.blue,
                   ),
-                  child: Text("₱${detail.price!}  | Add to cart", style: const TextStyle(color: Colors.white)),
+                  child: GestureDetector(
+                    onTap: (){
+                      repairDetails.addItem(detail);
+                    },
+                      child: Text("₱${detail.price!}  | Add to cart", style: const TextStyle(color: Colors.white),
+                      ),
+                  ),
                 ),
               ],
             )
