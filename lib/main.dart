@@ -6,6 +6,7 @@ import 'controllers/repair_details_controller.dart';
 import 'infoHandler/app_info.dart';
 import 'screens/splashScreen/splash_screen.dart';
 import 'global/helper/dependencies.dart' as dependency;
+import 'utils/route_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,11 +25,14 @@ void main() async {
             ),
               debugShowCheckedModeBanner: false,
             home: const MySplashScreen(),
+            initialRoute: RouteHelper.initial,
+            getPages: RouteHelper.routes,
           ),
         )
       )
   );
 }
+
 
 class MyApp extends StatefulWidget
 {

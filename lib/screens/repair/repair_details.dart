@@ -1,47 +1,56 @@
 import 'package:automatik_users_app/widgets/app_icon.dart';
 import 'package:automatik_users_app/widgets/dimensions.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../controllers/repair_details_controller.dart';
+import '../../utils/route_helper.dart';
 import '../../widgets/expandable_text.dart';
 import '../../widgets/title_icon_info.dart';
 
 class RepairDetails extends StatelessWidget {
-  const RepairDetails({Key? key}) : super(key: key);
+  int pageId;
+  RepairDetails({Key? key, required this.pageId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var detail = Get.find<RepairDetailsController>().repairDetailsList[pageId];
+    Get.find<RepairDetailsController>().initDetails();
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          //backgournd image
           Positioned(
             left: 0,
             right: 0,
             child: Container(
               width: double.maxFinite,
               height: Dimensions.repairDetailsImgSize,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                  image: AssetImage("assets/images/brake-service-repair.jpg")
-                )
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(detail.img!)
+                  )
               ),
             ),
           ),
-          //reusable title
           Positioned(
             top: Dimensions.height45,
             left: 10,
             right: Dimensions.width20,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                AppIcon(icon: Icons.arrow_back_ios),
-                AppIcon(icon: Icons.shopping_cart_outlined)
+              children: [
+                GestureDetector(onTap: (){
+                  Get.toNamed(RouteHelper.getInitial());
+                },
+                child: const AppIcon(icon: Icons.arrow_back_ios),
+                ),
+                GestureDetector(onTap: (){},
+                  child: const AppIcon(icon: Icons.shopping_cart_outlined)
+                ),
               ],
             ),
           ),
-          //symptoms
           //expamdable symptoms details
           Positioned(
             left: 0,
@@ -49,76 +58,88 @@ class RepairDetails extends StatelessWidget {
             bottom: 0,
             top: Dimensions.repairDetailsImgSize-20,
             child: Container(
-             padding: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20, top: Dimensions.height20),
+              padding: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20, top: Dimensions.height20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(Dimensions.radius20),
-                    topLeft: Radius.circular(Dimensions.radius20),
+                  topRight: Radius.circular(Dimensions.radius20),
+                  topLeft: Radius.circular(Dimensions.radius20),
                 ),
                 color: Colors.white,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const TitleIconInfo(
-                    text: "Brake Repair Service",
+                   TitleIconInfo(
                     iconColor: Colors.red,
                     icon: Icons.access_time_rounded,
-                    minutes: ' 30 minutes',
+                    minutes: detail.minutes,
+                    text: detail.title!,
+                    moreInfo: "Symptoms : ",
                   ),
                   SizedBox(height: Dimensions.height10),
-                  const Text("Symptoms : "),
-                  SizedBox(height: Dimensions.height20),
-                   const Expanded(
-                     child: SingleChildScrollView(
-                         child: ExpandableRepairDetails(text: "1. Steering wheel start shaking or vibrating when you apply the brakes. \n2. Screeching, squealing, grinding or ot her awful braking sounds when you press the brake pedal. \n3. Brake pedal goes down to the floor. \n4. Brake warning light is on. \n5. Braking functions require more brake pedal pressure.", ),
-                     ),
-                   ),
-                ],
-              ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: ExpandableRepairDetails(text: detail.info!),
+                  ),
+                ),
+              ],
             ),
+          ),
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        height: Dimensions.bottomHeightBar,
-        padding : EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20,left: Dimensions.width20, right: Dimensions.width20),
-        decoration: BoxDecoration(
-            color: Colors.black12,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(Dimensions.radius20),
-            topRight: Radius.circular(Dimensions.radius20),
-          )
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius20),
-                color: Colors.white,
-              ),
-              child:  Row(
-                children: [
-                  const Icon(Icons.remove, color: Colors.black, size: 15),
-                  SizedBox(width: Dimensions.width20/2),
-                  const Text("0", style: TextStyle(fontSize: 20, color: Colors.black)),
-                  SizedBox(width: Dimensions.width20/2),
-                  const Icon(Icons.add, color: Colors.black, size: 15),
-                ],
-              ),
+      bottomNavigationBar: GetBuilder<RepairDetailsController>(builder: (repairDetails){
+        return Container(
+            height: Dimensions.bottomHeightBar,
+            padding : EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20,left: Dimensions.width20, right: Dimensions.width20),
+            decoration: BoxDecoration(
+                color: Colors.black12,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(Dimensions.radius20),
+                  topRight: Radius.circular(Dimensions.radius20),
+                )
             ),
-            Container(
-              padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius20),
-                color: Colors.blue,
-              ),
-              child: const Text("₱ 300 | Add to cart", style: TextStyle(color: Colors.white)),
-            ),
-          ],
-        )
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimensions.radius20),
+                    color: Colors.white,
+                  ),
+                  child:  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: (){
+                          repairDetails.setQuantity(false);
+                        },
+                          child: const Icon(Icons.remove, color: Colors.black, size: 15),
+                      ),
+                      SizedBox(width: Dimensions.width20/2),
+                      Text(repairDetails.quantity.toString(), style: const TextStyle(fontSize: 20, color: Colors.black)),
+                      SizedBox(width: Dimensions.width20/2),
+                      GestureDetector(
+                        onTap: (){
+                          repairDetails.setQuantity(true);
+                        },
+                        child: const Icon(Icons.add, color: Colors.black, size: 15),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimensions.radius20),
+                    color: Colors.blue,
+                  ),
+                  child: Text("₱${detail.price!}  | Add to cart", style: const TextStyle(color: Colors.white)),
+                ),
+              ],
+            )
+          );
+        },
       ),
     );
   }
