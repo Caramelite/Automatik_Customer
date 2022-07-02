@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../global/repositories/cart_repo.dart';
 import '../models/cart_model.dart';
@@ -14,8 +14,10 @@ class CartController extends GetxController{
   Map<int, CartModel> get items => _items;
 
   void addItem(RepairDetailsModel repair, int quantity){
+    var totalQuantity = 0;
     if(_items.containsKey(repair.id!)){
       _items.update(repair.id!, (value) {
+        totalQuantity = value.quantity! + quantity;
         return CartModel(
           id : value.id,
           title : value.title,
@@ -26,18 +28,57 @@ class CartController extends GetxController{
           time : DateTime.now().toString(),
         );
       });
+
+      if(totalQuantity <= 0){
+        _items.remove(repair.id);
+      }
     }else{
-      _items.putIfAbsent(repair.id!, () {
-        return CartModel(
-          id : repair.id,
-          title : repair.title,
-          price : repair.price,
-          img : repair.img,
-          quantity : quantity,
-          isExist : true,
-          time : DateTime.now().toString(),
-        );
-      });
+     if(quantity > 0){
+       _items.putIfAbsent(repair.id!, () {
+         return CartModel(
+           id : repair.id,
+           title : repair.title,
+           price : repair.price,
+           img : repair.img,
+           quantity : quantity,
+           isExist : true,
+           time : DateTime.now().toString(),
+         );
+       });
+     }else {
+       Get.snackbar("Item Count", "You should atleast add one item !",
+         backgroundColor: Colors.black45,
+         colorText: Colors.white,
+       );
+     }
     }
   }
+
+  bool existInCart(RepairDetailsModel repair){
+    if (_items.containsKey(repair.id)){
+      return true;
+    }
+    return false;
+  }
+
+  int getQuanity(RepairDetailsModel repair){
+    var quantity = 0;
+    if(_items.containsKey(repair.id)){
+      _items.forEach((key, value) {
+        if(key == repair.id){
+          quantity = value.quantity!;
+        }
+      });
+    }
+    return quantity;
+  }
+
+  int get totalItems{
+    var totalQuantity = 0;
+    _items.forEach((key, value) {
+      totalQuantity += value.quantity!;
+    });
+    return totalQuantity;
+  }
+
 }

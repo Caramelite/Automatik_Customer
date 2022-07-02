@@ -42,46 +42,59 @@ class RepairDetailsController extends GetxController
     }
     update();
   }
-  checkQuantity(int quantity){
-    if(quantity < 0){
+   int checkQuantity(int quantity){
+    if((_inCartItems + quantity) < 0){
       Get.snackbar("Item Count", "You can't reduce more !",
         backgroundColor: Colors.black45,
         colorText: Colors.white,
       );
       return 0;
     }
-    else if(quantity > 2){
+    else if((_inCartItems + quantity) > 5){
       Get.snackbar("Item Count", "You've reached the maximum order !",
         backgroundColor: Colors.black45,
         colorText: Colors.white,
       );
-      return 2;
+      return 5;
     }
     else{
       return quantity;
     }
   }
 
-  void initDetails(CartController cart){
+  void initDetails(RepairDetailsModel repair, CartController cart){
     _quantity = 0;
     _inCartItems = 0;
     _cart = cart;
-
+    var exist = false;
+    exist = _cart.existInCart(repair);
     //get from storage and save it in _inCartItems (If exist)
+    print("Status : " + exist.toString());
+    if(exist){
+      _inCartItems = _cart.getQuanity(repair);
+    }
+    print("Quantity : " + _inCartItems.toString());
   }
 
   void addItem(RepairDetailsModel repair){
-    if (_quantity > 0 ){
+    //if (_quantity > 0 ){
       _cart.addItem(repair, _quantity);
+
       _quantity = 0;
+      _inCartItems = _cart.getQuanity(repair);
+
       _cart.items.forEach((key, value) {
         print("The id is : " + value.id.toString() + " | The quantity is : " + value.quantity.toString());
       });
-    }else{
+    /*}else{
       Get.snackbar("Item Count", "You should atleast add one item !",
         backgroundColor: Colors.black45,
         colorText: Colors.white,
       );
-    }
+    }*/
+  }
+
+  int get totalItems{
+    return _cart.totalItems;
   }
 }

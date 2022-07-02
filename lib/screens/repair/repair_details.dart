@@ -15,7 +15,7 @@ class RepairDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var detail = Get.find<RepairDetailsController>().repairDetailsList[pageId];
-    Get.find<RepairDetailsController>().initDetails(Get.find<CartController>());
+    Get.find<RepairDetailsController>().initDetails(detail, Get.find<CartController>());
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -46,9 +46,15 @@ class RepairDetails extends StatelessWidget {
                 },
                 child: const AppIcon(icon: Icons.arrow_back_ios),
                 ),
-                GestureDetector(onTap: (){},
-                  child: const AppIcon(icon: Icons.shopping_cart_outlined)
-                ),
+                /*const AppIcon(icon: Icons.shopping_cart_outlined),*/
+                GetBuilder<RepairDetailsController>(builder : (repairDetails) {
+                  return Stack(
+                    children: const [
+                      AppIcon(icon: Icons.shopping_cart_outlined),
+                      
+                    ],
+                  );
+                }),
               ],
             ),
           ),
@@ -118,7 +124,7 @@ class RepairDetails extends StatelessWidget {
                           child: const Icon(Icons.remove, color: Colors.black, size: 15),
                       ),
                       SizedBox(width: Dimensions.width20/2),
-                      Text(repairDetails.quantity.toString(), style: const TextStyle(fontSize: 20, color: Colors.black)),
+                      Text(repairDetails.inCartItems.toString(), style: const TextStyle(fontSize: 20, color: Colors.black)),
                       SizedBox(width: Dimensions.width20/2),
                       GestureDetector(
                         onTap: (){
