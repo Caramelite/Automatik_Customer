@@ -68,7 +68,7 @@ class RepairDetailsController extends GetxController
     _cart = cart;
     var exist = false;
     exist = _cart.existInCart(repair);
-    //get from storage and save it in _inCartItems (If exist)
+
     print("Status : " + exist.toString());
     if(exist){
       _inCartItems = _cart.getQuanity(repair);
@@ -77,7 +77,6 @@ class RepairDetailsController extends GetxController
   }
 
   void addItem(RepairDetailsModel repair){
-    //if (_quantity > 0 ){
       _cart.addItem(repair, _quantity);
 
       _quantity = 0;
@@ -86,12 +85,7 @@ class RepairDetailsController extends GetxController
       _cart.items.forEach((key, value) {
         print("The id is : " + value.id.toString() + " | The quantity is : " + value.quantity.toString());
       });
-    /*}else{
-      Get.snackbar("Item Count", "You should atleast add one item !",
-        backgroundColor: Colors.black45,
-        colorText: Colors.white,
-      );
-    }*/
+    update();
   }
 
   int get totalItems{

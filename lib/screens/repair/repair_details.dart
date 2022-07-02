@@ -46,12 +46,24 @@ class RepairDetails extends StatelessWidget {
                 },
                 child: const AppIcon(icon: Icons.arrow_back_ios),
                 ),
-                /*const AppIcon(icon: Icons.shopping_cart_outlined),*/
                 GetBuilder<RepairDetailsController>(builder : (repairDetails) {
                   return Stack(
-                    children: const [
-                      AppIcon(icon: Icons.shopping_cart_outlined),
-                      
+                    children: [
+                      const AppIcon(icon: Icons.shopping_cart_outlined),
+                      Get.find<RepairDetailsController>().totalItems >= 1
+                          ? const Positioned(
+                            right: 0, top: 0,
+                            child:  AppIcon(icon: Icons.circle, size: 15,
+                                iconColor: Colors.transparent,
+                                backgroundColor: Colors.blue))
+                          : Container(),
+                      Get.find<RepairDetailsController>().totalItems >= 1
+                          ?  Positioned(
+                          right: 3.8, top: 0.5,
+                          child:  Text(Get.find<RepairDetailsController>().totalItems.toString(),
+                          style: const TextStyle(fontSize: 12, color: Colors.black),
+                          ))
+                          : Container(),
                     ],
                   );
                 }),
