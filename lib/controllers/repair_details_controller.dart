@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../global/repositories/repair_details_repo.dart';
+import '../models/cart_model.dart';
 import '../models/repair_details_model.dart';
 import 'cart_controller.dart';
 
@@ -37,8 +38,10 @@ class RepairDetailsController extends GetxController
   void setQuantity(bool isIncrement){
     if(isIncrement){
       _quantity = checkQuantity(_quantity + 1);
+      //print("Number of Items :  " +  _quantity.toString());
     }else{
       _quantity = checkQuantity(_quantity - 1);
+      //print("Decrement :  " +  _quantity.toString());
     }
     update();
   }
@@ -96,4 +99,9 @@ class RepairDetailsController extends GetxController
   int get totalItems{
     return _cart.totalItems;
   }
+
+  List<CartModel> get getItems{
+    return _cart.getItems;
+  }
+
 }

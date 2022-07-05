@@ -47,24 +47,31 @@ class RepairDetails extends StatelessWidget {
                 child: const AppIcon(icon: Icons.arrow_back_ios),
                 ),
                 GetBuilder<RepairDetailsController>(builder : (repairDetails) {
-                  return Stack(
-                    children: [
-                      const AppIcon(icon: Icons.shopping_cart_outlined),
-                      Get.find<RepairDetailsController>().totalItems >= 1
-                          ? const Positioned(
-                            right: 0, top: 0,
-                            child:  AppIcon(icon: Icons.circle, size: 15,
-                                iconColor: Colors.transparent,
-                                backgroundColor: Colors.blue))
-                          : Container(),
-                      Get.find<RepairDetailsController>().totalItems >= 1
-                          ?  Positioned(
-                          right: 3.8, top: 0.5,
-                          child:  Text(Get.find<RepairDetailsController>().totalItems.toString(),
-                          style: const TextStyle(fontSize: 12, color: Colors.black),
-                          ))
-                          : Container(),
-                    ],
+                  return GestureDetector(
+                    onTap: (){
+                      if(repairDetails.totalItems >= 1) {
+                        Get.toNamed(RouteHelper.getCartPage());
+                      }
+                    },
+                    child: Stack(
+                      children: [
+                        const AppIcon(icon: Icons.shopping_cart_outlined),
+                        repairDetails.totalItems >= 1
+                            ? const Positioned(
+                              right: 0, top: 0,
+                              child:  AppIcon(icon: Icons.circle, size: 15,
+                                  iconColor: Colors.transparent,
+                                  backgroundColor: Colors.blue))
+                            : Container(),
+                        Get.find<RepairDetailsController>().totalItems >= 1
+                            ?  Positioned(
+                            right: 3.8, top: 0.5,
+                            child:  Text(Get.find<RepairDetailsController>().totalItems.toString(),
+                            style: const TextStyle(fontSize: 12, color: Colors.black),
+                            ))
+                            : Container(),
+                      ],
+                    ),
                   );
                 }),
               ],
@@ -92,7 +99,7 @@ class RepairDetails extends StatelessWidget {
                     iconColor: Colors.red,
                     icon: Icons.access_time_rounded,
                     minutes: detail.minutes,
-                    text: detail.title!,
+                     title: detail.title!,
                     moreInfo: "Symptoms : ",
                   ),
                   SizedBox(height: Dimensions.height10),

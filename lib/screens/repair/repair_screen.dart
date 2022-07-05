@@ -107,7 +107,7 @@ class _RepairBodyPageState extends State<RepairBodyPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                          TitleIconInfo(
-                          text: repairDetails.title!,
+                          title: repairDetails.title!,
                            iconColor: Colors.red,
                            icon: Icons.access_time_rounded,
                            minutes: repairDetails.minutes!,

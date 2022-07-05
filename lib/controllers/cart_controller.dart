@@ -26,9 +26,9 @@ class CartController extends GetxController{
           quantity : value.quantity! + quantity,
           isExist : true,
           time : DateTime.now().toString(),
+          repairDetails: repair,
         );
       });
-
       if(totalQuantity <= 0){
         _items.remove(repair.id);
       }
@@ -43,6 +43,7 @@ class CartController extends GetxController{
            quantity : quantity,
            isExist : true,
            time : DateTime.now().toString(),
+           repairDetails: repair,
          );
        });
      }else {
@@ -52,6 +53,7 @@ class CartController extends GetxController{
        );
      }
     }
+    update();
   }
 
   bool existInCart(RepairDetailsModel repair){
@@ -81,4 +83,9 @@ class CartController extends GetxController{
     return totalQuantity;
   }
 
+  List<CartModel> get getItems{
+    return _items.entries.map((e){
+      return e.value;
+    }).toList();
+  }
 }

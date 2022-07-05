@@ -1,4 +1,6 @@
 
+import 'repair_details_model.dart';
+
 class CartModel  {
   int? id;
   String? title;
@@ -7,6 +9,7 @@ class CartModel  {
   int? quantity;
   bool? isExist;
   String? time;
+  RepairDetailsModel? repairDetails;
 
   CartModel ({
     this.id,
@@ -15,7 +18,8 @@ class CartModel  {
     this.price,
     this.img,
     this.isExist,
-    this.time
+    this.time,
+    this.repairDetails
   });
 
   CartModel .fromJson(Map<String, dynamic> json) {
@@ -26,6 +30,7 @@ class CartModel  {
     quantity = json['quantity'];
     isExist = json['isExist'];
     time = json['time'];
+    repairDetails = RepairDetailsModel.fromJson(json['repairDetails']);
   }
 
 }
