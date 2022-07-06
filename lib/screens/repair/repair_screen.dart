@@ -32,6 +32,9 @@ class _RepairBodyPageState extends State<RepairBodyPage> {
   Widget build(BuildContext context) {
     return Column(
         children: [
+          Container(
+            margin: const EdgeInsets.only(top: 35, bottom: 15, right: 0),
+          ),
           GetBuilder<RepairDetailsController>(builder : (repairDetails) {
             return repairDetails.isLoaded ? SizedBox(
               height: Dimensions.pageView,
@@ -63,6 +66,7 @@ class _RepairBodyPageState extends State<RepairBodyPage> {
   @override
   void dispose() {
     pageController.dispose();
+    super.dispose();
   }
 
   Widget _buildPageItem(int index, RepairDetailsModel repairDetails)

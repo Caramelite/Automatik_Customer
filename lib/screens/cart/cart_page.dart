@@ -24,6 +24,7 @@ class CartPage extends StatelessWidget {
                   GestureDetector(
                     onTap: (){
                       //Get.toNamed(RouteHelper.getRepairDetails());
+                      Navigator.pop(context);
                     },
                     child: const AppIcon(icon: Icons.arrow_back_ios,
                     iconColor: Colors.white,
@@ -40,10 +41,10 @@ class CartPage extends StatelessWidget {
                       backgroundColor: Colors.blue,
                     ),
                   ),
-                  const AppIcon(icon: Icons.shopping_cart_outlined,
+                  /*const AppIcon(icon: Icons.shopping_cart_outlined,
                     iconColor: Colors.white,
                     backgroundColor: Colors.blue,
-                  ),
+                  ),*/
                 ],
               ),
           ),

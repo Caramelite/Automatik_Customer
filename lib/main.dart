@@ -20,12 +20,9 @@ void main() async {
           create: (context) => AppInfo(),
           child: GetMaterialApp(
             title: 'Customer App',
-            theme: ThemeData(
-            primarySwatch: Colors.blue,
-            ),
               debugShowCheckedModeBanner: false,
-            home: const MySplashScreen(),
-            initialRoute: RouteHelper.initial,
+            /*home: const MySplashScreen(),*/
+            initialRoute: RouteHelper.getsplashScreen(),
             getPages: RouteHelper.routes,
           ),
         )
