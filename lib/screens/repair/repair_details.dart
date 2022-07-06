@@ -9,8 +9,9 @@ import '../../widgets/expandable_text.dart';
 import '../../widgets/title_icon_info.dart';
 
 class RepairDetails extends StatelessWidget {
-  int pageId;
-  RepairDetails({Key? key, required this.pageId}) : super(key: key);
+  final int pageId;
+  final String page;
+  RepairDetails({Key? key, required this.pageId, required this.page}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +37,17 @@ class RepairDetails extends StatelessWidget {
           ),
           Positioned(
             top: Dimensions.height45,
-            left: 10,
+            left: Dimensions.width20,
             right: Dimensions.width20,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(onTap: (){
-                  Get.toNamed(RouteHelper.getInitial());
+                  if(page == "cartpage"){
+                    Get.toNamed(RouteHelper.getCartPage());
+                  }else{
+                    Get.toNamed(RouteHelper.getInitial());
+                  }
                 },
                 child: const AppIcon(icon: Icons.arrow_back_ios),
                 ),

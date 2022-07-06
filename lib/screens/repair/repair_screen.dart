@@ -83,7 +83,7 @@ class _RepairBodyPageState extends State<RepairBodyPage> {
             ),
             GestureDetector(
               onTap: () {
-                Get.toNamed(RouteHelper.getRepairDetails(index));
+                Get.toNamed(RouteHelper.getRepairDetails(index, "home"));
               },
               child: Align(
                 alignment: Alignment.bottomCenter,

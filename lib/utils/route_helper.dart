@@ -12,7 +12,7 @@ class RouteHelper {
 
   static String getInitial() => '$initial';
   static String getRepairPage() => '$repairPage';
-  static String getRepairDetails(int pageId) => '$repairDetails?pageId=$pageId';
+  static String getRepairDetails(int pageId, String page) => '$repairDetails?pageId=$pageId&page=$page';
   static String getCartPage() => '$cartPage';
 
 
@@ -26,7 +26,8 @@ class RouteHelper {
 
     GetPage(name: repairDetails, page: () {
       var pageId = Get.parameters['pageId'];
-      return RepairDetails(pageId: int.parse(pageId!));
+      var page = Get.parameters['page'];
+      return RepairDetails(pageId: int.parse(pageId!), page : page!);
     }, transition: Transition.fadeIn),
 
     GetPage(name: cartPage, page: () {

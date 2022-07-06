@@ -72,9 +72,7 @@ class CartPage extends StatelessWidget {
                                     var reparIndex = Get.find<RepairDetailsController>()
                                         .repairDetailsList.indexOf(_cartList[index].repairDetails!);
                                     if(reparIndex >= 0){
-
-                                    }else{
-
+                                      Get.toNamed(RouteHelper.getRepairDetails(reparIndex, "cartpage"));
                                     }
                                   },
                                   child: Container(
@@ -148,6 +146,53 @@ class CartPage extends StatelessWidget {
               ),
           ),
         ],
+      ),
+        bottomNavigationBar: GetBuilder<CartController>(builder: (cartController){
+        return Container(
+            height: Dimensions.bottomHeightBar,
+            padding : EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20,left: Dimensions.width20, right: Dimensions.width20),
+            decoration: BoxDecoration(
+                color: Colors.black12,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(Dimensions.radius20),
+                  topRight: Radius.circular(Dimensions.radius20),
+                )
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimensions.radius20),
+                    color: Colors.white,
+                  ),
+                  child:  Row(
+                    children: [
+                      SizedBox(width: Dimensions.width20/2),
+                      Text("₱ " + cartController.totalAmount.toString(), style: const TextStyle(fontSize: 20, color: Colors.black)),
+                      SizedBox(width: Dimensions.width20/2),
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                  onTap: (){
+                    //repairDetails.addItem(detail);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                      color: Colors.blue,
+                    ),
+                    child: const Text("Check Out", style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            )
+        );
+      },
       ),
     );
   }
