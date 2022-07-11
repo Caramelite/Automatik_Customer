@@ -51,14 +51,14 @@ class RepairDetailsModel  {
     minutes = json['minutes'];
   }
 
-  /*Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['info'] = this.info;
-    data['price'] = this.price;
-    data['img'] = this.img;
-    data['minutes'] = this.minutes;
-    return data;
-  }*/
+  Map<String, dynamic> toJson() {
+    return {
+      'id' : this.id,
+      'title' : this.title,
+      'price' : this.price,
+      'img' : this.img,
+      'info' : this.info,
+      'minutes' : this.minutes,
+    };
+  }
 }

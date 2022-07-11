@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import '../screens/cart/cart_page.dart';
-import '../screens/mainScreens/home_screen.dart';
+import '../screens/homeScreens/home_screen.dart';
 import '../screens/repair/repair_details.dart';
 import '../screens/repair/repair_screen.dart';
 import '../screens/splashScreen/splash_screen.dart';

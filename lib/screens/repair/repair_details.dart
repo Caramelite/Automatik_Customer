@@ -54,7 +54,7 @@ class RepairDetails extends StatelessWidget {
                 GetBuilder<RepairDetailsController>(builder : (repairDetails) {
                   return GestureDetector(
                     onTap: (){
-                      if(repairDetails.totalItems >= 1) {
+                      if(repairDetails.totalItems >= 0) {
                         Get.toNamed(RouteHelper.getCartPage());
                       }
                     },

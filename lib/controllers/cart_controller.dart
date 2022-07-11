@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../global/repositories/cart_repo.dart';
 import '../models/cart_model.dart';
 import '../models/repair_details_model.dart';
 
 class CartController extends GetxController{
   final CartRepo cartRepo;
-
   CartController({required this.cartRepo});
   Map<int, CartModel> _items = {};
 
   Map<int, CartModel> get items => _items;
+  List<CartModel> storageItems = []; //only for storage and sharedPreferences
 
-  void addItem(RepairDetailsModel repair, int quantity){
+  void addItem(RepairDetailsModel repairDetails, int quantity){
     var totalQuantity = 0;
-    if(_items.containsKey(repair.id!)){
-      _items.update(repair.id!, (value) {
+    if(_items.containsKey(repairDetails.id!)){
+      _items.update(repairDetails.id!, (value) {
         totalQuantity = value.quantity! + quantity;
         return CartModel(
           id : value.id,
@@ -26,24 +25,24 @@ class CartController extends GetxController{
           quantity : value.quantity! + quantity,
           isExist : true,
           time : DateTime.now().toString(),
-          repairDetails: repair,
+          repairDetails: repairDetails,
         );
       });
       if(totalQuantity <= 0){
-        _items.remove(repair.id);
+        _items.remove(repairDetails.id);
       }
     }else{
      if(quantity > 0){
-       _items.putIfAbsent(repair.id!, () {
+       _items.putIfAbsent(repairDetails.id!, () {
          return CartModel(
-           id : repair.id,
-           title : repair.title,
-           price : repair.price,
-           img : repair.img,
+           id : repairDetails.id,
+           title : repairDetails.title,
+           price : repairDetails.price,
+           img : repairDetails.img,
            quantity : quantity,
            isExist : true,
            time : DateTime.now().toString(),
-           repairDetails: repair,
+           repairDetails: repairDetails,
          );
        });
      }else {
@@ -53,21 +52,22 @@ class CartController extends GetxController{
        );
      }
     }
+    cartRepo.addToCartList(getItems);
     update();
   }
 
-  bool existInCart(RepairDetailsModel repair){
-    if (_items.containsKey(repair.id)){
+  bool existInCart(RepairDetailsModel repairDetails){
+    if (_items.containsKey(repairDetails.id)){
       return true;
     }
     return false;
   }
 
-  int getQuanity(RepairDetailsModel repair){
+  int getQuanity(RepairDetailsModel repairDetails){
     var quantity = 0;
-    if(_items.containsKey(repair.id)){
+    if(_items.containsKey(repairDetails.id)){
       _items.forEach((key, value) {
-        if(key == repair.id){
+        if(key == repairDetails.id){
           quantity = value.quantity!;
         }
       });
@@ -97,4 +97,19 @@ class CartController extends GetxController{
     });
     return total;
   }
+
+  List<CartModel> getCartData(){
+    setCart = cartRepo.getCartList();
+    return storageItems;
+  }
+
+  //Set - accept something in your parameters
+  set setCart(List<CartModel> items){
+    storageItems = items;
+    print("Length of cart items : " + storageItems.length.toString());
+    for (int i = 0; i < storageItems.length; i++){
+      _items.putIfAbsent(storageItems[i].repairDetails!.id!, () => storageItems[i]);
+    }
+  }
+
 }

@@ -2,9 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'controllers/repair_details_controller.dart';
+import 'controllers/cart_controller.dart';
 import 'infoHandler/app_info.dart';
-import 'screens/splashScreen/splash_screen.dart';
 import 'global/helper/dependencies.dart' as dependency;
 import 'utils/route_helper.dart';
 
@@ -12,7 +11,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dependency.init();
   await Firebase.initializeApp();
-  Get.find<RepairDetailsController>().getRepairDetailsList();
+  Get.find<CartController>().getCartData();
 
   runApp(
       MyApp(
@@ -21,7 +20,6 @@ void main() async {
           child: GetMaterialApp(
             title: 'Customer App',
               debugShowCheckedModeBanner: false,
-            /*home: const MySplashScreen(),*/
             initialRoute: RouteHelper.getsplashScreen(),
             getPages: RouteHelper.routes,
           ),

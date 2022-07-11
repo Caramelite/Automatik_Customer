@@ -33,4 +33,17 @@ class CartModel  {
     repairDetails = RepairDetailsModel.fromJson(json['repairDetails']);
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id' : this.id,
+      'title' : this.title,
+      'price' : this.price,
+      'img' : this.img,
+      'quantity' : this.quantity,
+      'isExist' : this.isExist,
+      'time' : this.time,
+      'repairDetails' : this.repairDetails!.toJson()
+     };
+  }
+
 }

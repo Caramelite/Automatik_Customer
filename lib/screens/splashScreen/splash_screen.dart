@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../assistants/assistant_methods.dart';
+import '../../controllers/repair_details_controller.dart';
 import '../../global/global.dart';
 import '../authentication/login_screen.dart';
-import '../mainScreens/home_screen.dart';
+import '../homeScreens/home_screen.dart';
 
 class MySplashScreen extends StatefulWidget {
   const MySplashScreen({Key? key}) : super(key: key);
@@ -13,6 +15,11 @@ class MySplashScreen extends StatefulWidget {
 }
 
 class _MySplashScreenState extends State<MySplashScreen> {
+
+  Future<void> _loadResources () async {
+    await Get.find<RepairDetailsController>().getRepairDetailsList();
+  }
+
   startTimer() {
     fAuth.currentUser != null ? AssistantMethods.readCurrentOnLineUserInfo() : null;
 
@@ -34,6 +41,8 @@ class _MySplashScreenState extends State<MySplashScreen> {
     super.initState();
 
     startTimer();
+
+    _loadResources();
   }
   @override
   Widget build(BuildContext context) {

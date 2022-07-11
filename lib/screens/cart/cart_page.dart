@@ -70,10 +70,10 @@ class CartPage extends StatelessWidget {
                               children: [
                                 GestureDetector(
                                   onTap: (){
-                                    var reparIndex = Get.find<RepairDetailsController>()
+                                    var repairIndex = Get.find<RepairDetailsController>()
                                         .repairDetailsList.indexOf(_cartList[index].repairDetails!);
-                                    if(reparIndex >= 0){
-                                      Get.toNamed(RouteHelper.getRepairDetails(reparIndex, "cartpage"));
+                                    if(repairIndex >= 0){
+                                      Get.toNamed(RouteHelper.getRepairDetails(repairIndex, "cart-page"));
                                     }
                                   },
                                   child: Container(

@@ -6,4 +6,5 @@ class Constants {
   static const String DETAILS_URI = "/uc?export=download&id=1kXJynPtq-uaQ1NJUujlP5Jeldyw1kLJD";
 
 static const String TOKEN = "DBtoken";
+static const String CART_LIST = "cart-list";
 }
