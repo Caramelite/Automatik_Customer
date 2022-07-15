@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../base/no_data_page.dart';
 import '../../controllers/cart_controller.dart';
 import '../../controllers/repair_details_controller.dart';
 import '../../utils/route_helper.dart';
@@ -14,6 +15,7 @@ class CartPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
+          //header
           Positioned(
             left: Dimensions.width20,
             right: Dimensions.width20,
@@ -48,118 +50,131 @@ class CartPage extends StatelessWidget {
                 ],
               ),
           ),
-          Positioned(
-              left: Dimensions.width20,
-              right: Dimensions.width20,
-              top: Dimensions.height20*5,
-              bottom: 0,
-              child: Container(
-                margin: EdgeInsets.only(top: Dimensions.height20),
-                child: MediaQuery.removePadding(
+          //body
+          GetBuilder<CartController> (builder: (_cartController){
+          return _cartController.getItems.length > 0
+              ? Positioned(
+            left: Dimensions.width20,
+            right: Dimensions.width20,
+            top: Dimensions.height20*5,
+            bottom: 0,
+            child: Container(
+              margin: EdgeInsets.only(top: Dimensions.height20),
+              child: MediaQuery.removePadding(
                   context: context,
                   removeTop: true,
                   child: GetBuilder<CartController>(builder : (cart) {
                     var _cartList = cart.getItems;
                     return ListView.builder(
-                        itemCount: _cartList.length,
-                        itemBuilder: (_, index){
-                          return SizedBox(
-                            height: Dimensions.height20*5,
-                            width: double.maxFinite,
-                            child: Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: (){
-                                    var repairIndex = Get.find<RepairDetailsController>()
-                                        .repairDetailsList.indexOf(_cartList[index].repairDetails!);
-                                    if(repairIndex >= 0){
-                                      Get.toNamed(RouteHelper.getRepairDetails(repairIndex, "cart-page"));
-                                    }
-                                  },
-                                  child: Container(
-                                    width: Dimensions.height20*5,
-                                    height: Dimensions.height20*5,
-                                    margin: EdgeInsets.only(bottom: Dimensions.height10),
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(cart.getItems[index].img!)
-                                      ),
-                                      borderRadius: BorderRadius.circular(Dimensions.radius20),
-                                      color: Colors.white,
+                      itemCount: _cartList.length,
+                      itemBuilder: (_, index){
+                        return SizedBox(
+                          height: Dimensions.height20*5,
+                          width: double.maxFinite,
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: (){
+                                  var repairIndex = Get.find<RepairDetailsController>()
+                                      .repairDetailsList.indexOf(_cartList[index].repairDetails!);
+                                  if(repairIndex >= 0){
+                                    Get.toNamed(RouteHelper.getRepairDetails(repairIndex, "cart-page"));
+                                  }
+                                  if(repairIndex < 0){
+                                    Get.snackbar("History ", "Item preview is not available for history product!",
+                                      backgroundColor: Colors.black45,
+                                      colorText: Colors.white,
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  width: Dimensions.height20*5,
+                                  height: Dimensions.height20*5,
+                                  margin: EdgeInsets.only(bottom: Dimensions.height10),
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(cart.getItems[index].img!)
                                     ),
+                                    borderRadius: BorderRadius.circular(Dimensions.radius20),
+                                    color: Colors.white,
                                   ),
                                 ),
-                                SizedBox(width: Dimensions.width20/2),
-                                Expanded(
-                                  child: SizedBox(
-                                    height: Dimensions.height20*5,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Text(cart.getItems[index].title!, style: const TextStyle(color: Colors.black, )),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                             Text("₱ " + cart.getItems[index].price.toString(), style: const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
-                                            Container(
-                                              padding: EdgeInsets.only(top: Dimensions.height20/2, bottom: Dimensions.height20/2, left: Dimensions.width20/2, right: Dimensions.width20/2),
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(Dimensions.radius20),
-                                                color: Colors.white,
-                                              ),
-                                              child:  Row(
-                                                children: [
-                                                  GestureDetector(
-                                                    onTap: (){
-                                                      cart.addItem(_cartList[index].repairDetails!, -1);
-                                                    },
-                                                    child: const Icon(Icons.remove, color: Colors.black, size: 13),
-                                                  ),
-                                                  SizedBox(width: Dimensions.width20/2),
-                                                  Text(_cartList[index].quantity.toString(),
-                                                      style: const TextStyle(fontSize: 18, color: Colors.black)),
-                                                  SizedBox(width: Dimensions.width20/2),
-                                                  GestureDetector(
-                                                    onTap: (){
-                                                      cart.addItem(_cartList[index].repairDetails!, 1);
-                                                    },
-                                                    child: const Icon(Icons.add, color: Colors.black, size: 13),
-                                                  ),
-                                                ],
-                                              ),
+                              ),
+                              SizedBox(width: Dimensions.width20/2),
+                              Expanded(
+                                child: SizedBox(
+                                  height: Dimensions.height20*5,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text(cart.getItems[index].title!, style: const TextStyle(color: Colors.black, )),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("₱ " + cart.getItems[index].price.toString(), style: const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+                                          Container(
+                                            padding: EdgeInsets.only(top: Dimensions.height20/2, bottom: Dimensions.height20/2, left: Dimensions.width20/2, right: Dimensions.width20/2),
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(Dimensions.radius20),
+                                              color: Colors.white,
                                             ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                            child:  Row(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: (){
+                                                    cart.addItem(_cartList[index].repairDetails!, -1);
+                                                  },
+                                                  child: const Icon(Icons.remove, color: Colors.black, size: 13),
+                                                ),
+                                                SizedBox(width: Dimensions.width20/2),
+                                                Text(_cartList[index].quantity.toString(),
+                                                    style: const TextStyle(fontSize: 18, color: Colors.black)),
+                                                SizedBox(width: Dimensions.width20/2),
+                                                GestureDetector(
+                                                  onTap: (){
+                                                    cart.addItem(_cartList[index].repairDetails!, 1);
+                                                  },
+                                                  child: const Icon(Icons.add, color: Colors.black, size: 13),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                    },
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
                   )
-                ),
               ),
-          ),
+            ),
+          )
+              : const NoDataPage(text : "Your cart is empty!");
+          })
         ],
       ),
+        //bottom bar
         bottomNavigationBar: GetBuilder<CartController>(builder: (cartController){
         return Container(
             height: Dimensions.bottomHeightBar,
             padding : EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20,left: Dimensions.width20, right: Dimensions.width20),
             decoration: BoxDecoration(
-                color: Colors.black12,
+                color: Colors.grey[200],
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(Dimensions.radius20),
                   topRight: Radius.circular(Dimensions.radius20),
                 )
             ),
-            child: Row(
+            child: cartController.getItems.length > 0
+                ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
@@ -192,6 +207,7 @@ class CartPage extends StatelessWidget {
                 ),
               ],
             )
+                : Container()
         );
       },
       ),

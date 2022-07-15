@@ -43,7 +43,7 @@ class RepairDetails extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(onTap: (){
-                  if(page == "cartpage"){
+                  if(page == "cart-page"){
                     Get.toNamed(RouteHelper.getCartPage());
                   }else{
                     Get.toNamed(RouteHelper.getInitial());
