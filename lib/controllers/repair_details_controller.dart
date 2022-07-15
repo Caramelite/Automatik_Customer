@@ -77,11 +77,9 @@ class RepairDetailsController extends GetxController
     var exist = false;
     exist = _cart.existInCart(repair);
 
-    print("Status : " + exist.toString());
     if(exist){
       _inCartItems = _cart.getQuanity(repair);
     }
-    print("Quantity : " + _inCartItems.toString());
   }
 
   void addItem(RepairDetailsModel repair){
@@ -91,7 +89,7 @@ class RepairDetailsController extends GetxController
       _inCartItems = _cart.getQuanity(repair);
 
       _cart.items.forEach((key, value) {
-        print("The id is : " + value.id.toString() + " | The quantity is : " + value.quantity.toString());
+        //print("The id is : " + value.id.toString() + " | The quantity is : " + value.quantity.toString());
       });
     update();
   }

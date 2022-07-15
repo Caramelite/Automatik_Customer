@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../cart/cart_history.dart';
 import '../repair/repair_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List pages = [
     RepairBodyPage(),
     Container(child: const Center(child: Text("History Page")),),
-    Container(child: const Center(child: Text("Cart Page")),),
+    CartHistory(),
     Container(child: const Center(child: Text("Profile Page")),),
   ];
 

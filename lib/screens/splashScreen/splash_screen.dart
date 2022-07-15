@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../assistants/assistant_methods.dart';
+import '../../controllers/cart_controller.dart';
 import '../../controllers/repair_details_controller.dart';
 import '../../global/global.dart';
 import '../authentication/login_screen.dart';
