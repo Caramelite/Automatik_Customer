@@ -12,7 +12,7 @@ class AppIcon extends StatelessWidget {
     required this.icon,
     this.backgroundColor = const Color(0xFFfcf4e4),
     this.iconColor = const Color(0xFF756d54),
-    this.iconSize = 0,
+    this.iconSize = 16,
     this.size = 40,
   }) : super(key: key);
 
@@ -25,7 +25,7 @@ class AppIcon extends StatelessWidget {
         borderRadius: BorderRadius.circular(size/2),
         color: backgroundColor
       ),
-      child: Icon(icon, color: iconColor, size: Dimensions.iconSize24,),
+      child: Icon(icon, color: iconColor, size: iconSize, ),
     );
   }
 }

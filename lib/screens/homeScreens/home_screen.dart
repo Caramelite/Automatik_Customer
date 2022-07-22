@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import '../auth/sign_up_page.dart';
 import '../cart/cart_history.dart';
+import '../profile/profile_page.dart';
 import '../repair/repair_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,10 +15,10 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
   List pages = [
-    RepairBodyPage(),
-    Container(child: const Center(child: Text("History Page")),),
-    CartHistory(),
-    Container(child: const Center(child: Text("Profile Page")),),
+    const RepairBodyPage(),
+    const SignUpPage(),
+    const CartHistory(),
+    const ProfilePage()
   ];
 
   void onTapNav(int index){
