@@ -90,6 +90,17 @@ class ProfilePage extends StatelessWidget {
                        ),
                        smallText: SmallText(text: "camrs")
                    ),
+                   SizedBox(height: Dimensions.height20),
+                   //message
+                   ProfileWidget(
+                       appIcon: const AppIcon(icon: Icons.logout,
+                         backgroundColor: Colors.redAccent,
+                         iconColor: Colors.white,
+                         iconSize: 25,
+                         size: 40,
+                       ),
+                       smallText: SmallText(text: "Logout")
+                   ),
                  ],
                ),
              ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../auth/sign_up_page.dart';
+import '../auth/signup_screen.dart';
 import '../cart/cart_history.dart';
 import '../profile/profile_page.dart';
 import '../repair/repair_screen.dart';
@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List pages = [
     const RepairBodyPage(),
-    const SignUpPage(),
+    const SignUpScreen(),
     const CartHistory(),
     const ProfilePage()
   ];

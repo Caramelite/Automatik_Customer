@@ -16,10 +16,10 @@ Future<void> init() async
   Get.lazyPut(() => ApiClient(appBaseUrl : Constants.BASE_URL));
 
   //repos
-  Get.lazyPut(() => RepairDetailsRepo(apiClient:Get.find()));
+  Get.lazyPut(() => RepairDetailsRepo(apiClient: Get.find()));
   Get.lazyPut(() => CartRepo(sharedPreferences: Get.find()));
 
   //controllers
-  Get.lazyPut(() => RepairDetailsController(repairDetailsRepo:Get.find()));
+  Get.lazyPut(() => RepairDetailsController(repairDetailsRepo: Get.find()));
   Get.lazyPut(() => CartController(cartRepo: Get.find()));
 }

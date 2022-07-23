@@ -2,10 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../assistants/assistant_methods.dart';
-import '../../controllers/cart_controller.dart';
 import '../../controllers/repair_details_controller.dart';
 import '../../global/global.dart';
-import '../authentication/login_screen.dart';
+import '../auth/login_screen.dart';
 import '../homeScreens/home_screen.dart';
 
 class MySplashScreen extends StatefulWidget {
@@ -31,9 +30,9 @@ class _MySplashScreenState extends State<MySplashScreen> {
         Navigator.push(context, MaterialPageRoute(builder: (c) => const HomeScreen()));
       }
       else
-        {
-          Navigator.push(context, MaterialPageRoute(builder: (c) => const LoginScreen()));
-        }
+      {
+        Navigator.push(context, MaterialPageRoute(builder: (c) => const LoginScreen()));
+      }
     });
   }
 
@@ -49,7 +48,7 @@ class _MySplashScreenState extends State<MySplashScreen> {
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-        color: Colors.black,
+        color: Colors.white,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -57,10 +56,10 @@ class _MySplashScreenState extends State<MySplashScreen> {
               Image.asset("assets/images/Logo.png"),
               const SizedBox(height: 15),
               const Text("Automatik Booking App",
-              style: TextStyle(
-                fontSize: 24, color: Colors.white,
-                fontWeight: FontWeight.bold,
-              )),
+                  style: TextStyle(
+                    fontSize: 24, color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  )),
             ],
           ),
         ),
