@@ -1,6 +1,8 @@
+import 'package:automatik_users_app/constants/firebase_auth_controller.dart';
 import 'package:automatik_users_app/global/global.dart';
 import 'package:automatik_users_app/screens/Splash%20Screen/splash_screen.dart';
 import 'package:automatik_users_app/widgets/progress_dialog.dart';
+import 'package:automatik_users_app/widgets/roundedbutton.dart';
 import 'package:automatik_users_app/widgets/textfield.dart';
 import 'package:automatik_users_app/widgets/validators.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -257,32 +259,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                     Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        child: TextFormField(
-                          validator: (value) => MatchValidator(
-                                  errorText: 'Password does not match')
-                              .validateMatch(pass1C.text, pass2C.text),
-                          controller: pass2C,
-                          focusNode: pass2FN,
-                          textAlign: TextAlign.left,
-                          obscureText: hidePassword1,
-                          decoration: kTextFieldDecoration.copyWith(
-                            labelText: 'Confirm Password',
-                            prefixIcon: const Icon(
-                              Icons.lock,
-                            ),
-                            suffixIcon: IconButton(
-                              icon: Icon(hidePassword1
-                                  ? CupertinoIcons.eye_slash
-                                  : CupertinoIcons.eye),
-                              onPressed: () {
-                                setState(() {
-                                  hidePassword1 = !hidePassword1;
-                                });
-                              },
-                            ),
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: TextFormField(
+                        validator: (value) =>
+                            MatchValidator(errorText: 'Password does not match')
+                                .validateMatch(pass1C.text, pass2C.text),
+                        controller: pass2C,
+                        focusNode: pass2FN,
+                        textAlign: TextAlign.left,
+                        obscureText: hidePassword1,
+                        decoration: kTextFieldDecoration.copyWith(
+                          labelText: 'Confirm Password',
+                          prefixIcon: const Icon(
+                            Icons.lock,
                           ),
-                        )),
+                          suffixIcon: IconButton(
+                            icon: Icon(hidePassword1
+                                ? CupertinoIcons.eye_slash
+                                : CupertinoIcons.eye),
+                            onPressed: () {
+                              setState(() {
+                                hidePassword1 = !hidePassword1;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 16.0),
+                      child: RoundedButton(
+                          buttonTitle: 'Register',
+                          color: Colors.blueAccent,
+                          buttonOnPressed: () {
+                            AuthController.instance.register(
+                                emailC.text.trim(), pass1C.text.trim());
+                          }),
+                    )
                   ],
                 )),
           ),
