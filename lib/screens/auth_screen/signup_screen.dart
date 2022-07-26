@@ -12,6 +12,7 @@ import '../../widgets/roundedbutton.dart';
 import '../../widgets/textfield.dart';
 import '../../widgets/validators.dart';
 import '../splashScreen/splash_screen.dart';
+import 'login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -137,166 +138,297 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SizedBox(height: Dimensions.height20+Dimensions.height10),
 
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Scrollbar(
-                controller: scrollController,
-                child: Form(
-                    key: formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(top: 16.00),
-                          child: Row(
-                            children: [
-                              Flexible(
-                                child: TextFormField(
-                                  validator: UnifiedValidators.emptyValidator,
-                                  controller: firstNameC,
-                                  focusNode: firstNameFN,
-                                  textAlign: TextAlign.left,
-                                  onEditingComplete: () {
-                                    lastNameFN.requestFocus();
-                                  },
-                                  keyboardType: TextInputType.name,
-                                  decoration: kTextFieldDecoration.copyWith(
-                                    labelText: 'First Name',
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: 16.0,
-                              ),
-                              Flexible(
-                                child: TextFormField(
-                                  validator: UnifiedValidators.emptyValidator,
-                                  controller: lastNameC,
-                                  focusNode: lastNameFN,
-                                  onEditingComplete: () {
-                                    emailFN.requestFocus();
-                                  },
-                                  textAlign: TextAlign.left,
-                                  keyboardType: TextInputType.name,
-                                  decoration: kTextFieldDecoration.copyWith(
-                                    labelText: 'Last Name',
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 16.0),
-                          child: TextFormField(
-                            validator: UnifiedValidators.emailValidator,
-                            controller: emailC,
-                            focusNode: emailFN,
-                            textAlign: TextAlign.left,
-                            onEditingComplete: () {
-                              phoneFN.requestFocus();
-                            },
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: kTextFieldDecoration.copyWith(
-                              labelText: 'Email',
-                              prefixIcon: const Icon(
-                                Icons.email,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 16.0),
-                          child: TextFormField(
-                            validator: UnifiedValidators.emptyValidator,
-                            controller: phoneC,
-                            focusNode: phoneFN,
-                            textAlign: TextAlign.left,
-                            onEditingComplete: () {
-                              pass1FN.requestFocus();
-                            },
-                            keyboardType: TextInputType.number,
-                            decoration: kTextFieldDecoration.copyWith(
-                              labelText: 'Phone Number',
-                              prefixIcon: const Icon(
-                                Icons.phone,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 16.0),
-                          child: TextFormField(
-                            validator: UnifiedValidators.passwordValidator,
-                            controller: pass1C,
-                            focusNode: pass1FN,
-                            textAlign: TextAlign.left,
-                            onEditingComplete: () {
-                              pass2FN.requestFocus();
-                            },
-                            obscureText: hidePassword,
-                            decoration: kTextFieldDecoration.copyWith(
-                              labelText: 'Password',
-                              prefixIcon: const Icon(
-                                Icons.lock,
-                              ),
-                              suffixIcon: IconButton(
-                                icon: Icon(hidePassword
-                                    ? CupertinoIcons.eye_slash
-                                    : CupertinoIcons.eye),
-                                onPressed: () {
-                                  setState(() {
-                                    hidePassword = !hidePassword;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 16.0),
-                          child: TextFormField(
-                            validator: (value) =>
-                                MatchValidator(errorText: 'Password does not match')
-                                    .validateMatch(pass1C.text, pass2C.text),
-                            controller: pass2C,
-                            focusNode: pass2FN,
-                            textAlign: TextAlign.left,
-                            obscureText: hidePassword1,
-                            decoration: kTextFieldDecoration.copyWith(
-                              labelText: 'Confirm Password',
-                              prefixIcon: const Icon(
-                                Icons.lock,
-                              ),
-                              suffixIcon: IconButton(
-                                icon: Icon(hidePassword1
-                                    ? CupertinoIcons.eye_slash
-                                    : CupertinoIcons.eye),
-                                onPressed: () {
-                                  setState(() {
-                                    hidePassword1 = !hidePassword1;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 16.0),
-                          child: RoundedButton(
-                              buttonTitle: 'Register',
-                              color: Colors.blueAccent,
-                              buttonOnPressed: () {
-                                AuthController.instance.register(
-                                    emailC.text.trim(), pass1C.text.trim());
-                              }),
-                        )
-                      ],
-                    )),
+              margin: EdgeInsets.only(left: Dimensions.height20, right: Dimensions.height20),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(Dimensions.radius20),
+                  boxShadow: [
+                    BoxShadow(
+                        blurRadius: 10,
+                        spreadRadius: 7,
+                        offset: const Offset(1, 10),
+                        color: Colors.grey.withOpacity(0.2)
+                    )
+                  ]
+              ),
+              child: TextFormField(
+                validator: UnifiedValidators.emptyValidator,
+                controller: firstNameC,
+                focusNode: firstNameFN,
+                  decoration: InputDecoration(
+                    hintText: "First Name",
+                    prefixIcon: const Icon(Icons.person, color: Colors.blue,),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                      borderSide: const BorderSide(color: Colors.white, width: 1.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                      borderSide: const BorderSide(color: Colors.white, width: 1.0),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                    ),
+                  )
               ),
             ),
+            SizedBox(height: Dimensions.height10),
+
+            Container(
+              margin: EdgeInsets.only(left: Dimensions.height20, right: Dimensions.height20),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(Dimensions.radius20),
+                  boxShadow: [
+                    BoxShadow(
+                        blurRadius: 10,
+                        spreadRadius: 7,
+                        offset: const Offset(1, 10),
+                        color: Colors.grey.withOpacity(0.2)
+                    )
+                  ]
+              ),
+                child: TextFormField(
+                  validator: UnifiedValidators.emptyValidator,
+                    controller: lastNameC,
+                  focusNode: lastNameFN,
+                    decoration: InputDecoration(
+                      hintText: "Last Name",
+                      prefixIcon: const Icon(Icons.person, color: Colors.blue,),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(Dimensions.radius20),
+                        borderSide: const BorderSide(color: Colors.white, width: 1.0),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(Dimensions.radius20),
+                        borderSide: const BorderSide(color: Colors.white, width: 1.0),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(Dimensions.radius20),
+                      ),
+                    )
+                ),
+            ),
+            SizedBox(height: Dimensions.height10),
+
+            Container(
+              margin: EdgeInsets.only(left: Dimensions.height20, right: Dimensions.height20),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(Dimensions.radius20),
+                  boxShadow: [
+                    BoxShadow(
+                        blurRadius: 10,
+                        spreadRadius: 7,
+                        offset: const Offset(1, 10),
+                        color: Colors.grey.withOpacity(0.2)
+                    )
+                  ]
+              ),
+              child: TextFormField(
+                  validator: UnifiedValidators.emailValidator,
+                  controller: emailC,
+                  focusNode: emailFN,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    hintText: "Email",
+                    prefixIcon: const Icon(Icons.email, color: Colors.blue,),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                      borderSide: const BorderSide(color: Colors.white, width: 1.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                      borderSide: const BorderSide(color: Colors.white, width: 1.0),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                    ),
+                  )
+              ),
+            ),
+            SizedBox(height: Dimensions.height10),
+
+            Container(
+              margin: EdgeInsets.only(left: Dimensions.height20, right: Dimensions.height20),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(Dimensions.radius20),
+                  boxShadow: [
+                    BoxShadow(
+                        blurRadius: 10,
+                        spreadRadius: 7,
+                        offset: const Offset(1, 10),
+                        color: Colors.grey.withOpacity(0.2)
+                    )
+                  ]
+              ),
+              child: TextFormField(
+                  validator: UnifiedValidators.emptyValidator,
+                  controller: phoneC,
+                  focusNode: phoneFN,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    hintText: "Phone",
+                    prefixIcon: const Icon(Icons.phone, color: Colors.blue,),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                      borderSide: const BorderSide(color: Colors.white, width: 1.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                      borderSide: const BorderSide(color: Colors.white, width: 1.0),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                    ),
+                  )
+              ),
+            ),
+           SizedBox(height: Dimensions.height10),
+
+            Container(
+              margin: EdgeInsets.only(left: Dimensions.height20, right: Dimensions.height20),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(Dimensions.radius20),
+                  boxShadow: [
+                    BoxShadow(
+                        blurRadius: 10,
+                        spreadRadius: 7,
+                        offset: const Offset(1, 10),
+                        color: Colors.grey.withOpacity(0.2)
+                    )
+                  ]
+              ),
+              child: TextFormField(
+                validator: UnifiedValidators.passwordValidator,
+                controller: pass1C,
+                focusNode: pass1FN,
+                obscureText: hidePassword,
+                  decoration: InputDecoration(
+                    hintText: "Password",
+                    prefixIcon: const Icon(Icons.lock, color: Colors.blue,),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                      borderSide: const BorderSide(color: Colors.white, width: 1.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                      borderSide: const BorderSide(color: Colors.white, width: 1.0),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(hidePassword
+                          ? CupertinoIcons.eye_slash
+                          : CupertinoIcons.eye, color: Colors.blue,),
+                      onPressed: () {
+                        setState(() {
+                          hidePassword = !hidePassword;
+                        });
+                      },
+                    ),
+                  )
+              ),
+            ),
+            SizedBox(height: Dimensions.height10),
+
+            Container(
+              margin: EdgeInsets.only(left: Dimensions.height20, right: Dimensions.height20),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(Dimensions.radius20),
+                  boxShadow: [
+                    BoxShadow(
+                        blurRadius: 10,
+                        spreadRadius: 7,
+                        offset: const Offset(1, 10),
+                        color: Colors.grey.withOpacity(0.2)
+                    )
+                  ]
+              ),
+              child: TextFormField(
+                validator: (value) =>
+                    MatchValidator(errorText: 'Password does not match')
+                        .validateMatch(pass1C.text, pass2C.text),
+                controller: pass2C,
+                focusNode: pass2FN,
+                obscureText: hidePassword1,
+                decoration: InputDecoration(
+                  hintText: "Confirm Password",
+                  prefixIcon: const Icon(Icons.lock, color: Colors.blue,),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(Dimensions.radius20),
+                    borderSide: const BorderSide(color: Colors.white, width: 1.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(Dimensions.radius20),
+                    borderSide: const BorderSide(color: Colors.white, width: 1.0),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(Dimensions.radius20),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(hidePassword1
+                        ? CupertinoIcons.eye_slash
+                        : CupertinoIcons.eye, color: Colors.blue,),
+                    onPressed: () {
+                      setState(() {
+                        hidePassword1 = !hidePassword1;
+                      });
+                    },
+                  ),
+                )
+              ),
+            ),
+            SizedBox(height: Dimensions.height20),
+
+            Container(
+              width: Dimensions.screenWidth/2,
+              height: Dimensions.screenHeight/13,
+              child: ElevatedButton(
+                onPressed: ()
+                {
+                  AuthController.instance.register(
+                      emailC.text.trim(), pass1C.text.trim());
+
+                },
+                child: const Center(
+                  child: Text("Register",
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  ),
+                ),
+              ),
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Alredy have an account?",  style: TextStyle(color: Colors.grey[700]),),
+                TextButton(
+                  child: Text("Login here",
+                    style: TextStyle(color: Colors.grey[850]),
+                  ),
+                  onPressed: ()
+                  {
+                    Navigator.push(context, MaterialPageRoute(builder: (c) => const LoginScreen()));
+                  },
+                )
+              ],
+            ),
+
+            /*Container(
+              margin: const EdgeInsets.only(top: 16.0),
+              child: RoundedButton(
+                  buttonTitle: 'Register',
+                  color: Colors.blueAccent,
+                  buttonOnPressed: () {
+                    AuthController.instance.register(
+                        emailC.text.trim(), pass1C.text.trim());
+                  }),
+            ),*/
           ],
         ),
       ),
