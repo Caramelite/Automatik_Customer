@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../auth/signup_screen.dart';
+import '../auth_screen/signup_screen.dart';
 import '../cart/cart_history.dart';
 import '../profile/profile_page.dart';
 import '../repair/repair_screen.dart';

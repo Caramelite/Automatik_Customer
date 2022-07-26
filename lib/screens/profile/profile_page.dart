@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../widgets/app_icon.dart';
 import '../../widgets/dimensions.dart';
 import '../../widgets/profile_widget.dart';
 import '../../widgets/small_text.dart';
+import '../auth_screen/login_screen.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -92,14 +95,20 @@ class ProfilePage extends StatelessWidget {
                    ),
                    SizedBox(height: Dimensions.height20),
                    //message
-                   ProfileWidget(
-                       appIcon: const AppIcon(icon: Icons.logout,
-                         backgroundColor: Colors.redAccent,
-                         iconColor: Colors.white,
-                         iconSize: 25,
-                         size: 40,
-                       ),
-                       smallText: SmallText(text: "Logout")
+                   GestureDetector(
+                     onTap: (){
+                       FirebaseAuth.instance.signOut();
+                       Get.to(() => LoginScreen());
+                     },
+                     child: ProfileWidget(
+                         appIcon: const AppIcon(icon: Icons.logout,
+                           backgroundColor: Colors.redAccent,
+                           iconColor: Colors.white,
+                           iconSize: 25,
+                           size: 40,
+                         ),
+                         smallText: SmallText(text: "Logout")
+                     ),
                    ),
                  ],
                ),

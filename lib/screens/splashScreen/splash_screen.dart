@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../assistants/assistant_methods.dart';
 import '../../controllers/repair_details_controller.dart';
 import '../../global/global.dart';
-import '../auth/login_screen.dart';
+import '../auth_screen/login_screen.dart';
 import '../homeScreens/home_screen.dart';
 
 class MySplashScreen extends StatefulWidget {
