@@ -1,4 +1,5 @@
 import 'package:automatik_users_app/constants/firebase_auth_controller.dart';
+import 'package:automatik_users_app/screens/Authentication%20Screen/Log%20In%20Screen/login_screen.dart';
 import 'package:automatik_users_app/screens/Splash%20Screen/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ void main() async {
           primarySwatch: Colors.blue,
           ),
             debugShowCheckedModeBanner: false,
-          home: const MySplashScreen(),
+          home: const LoginScreen(),
         )
       )
   );
