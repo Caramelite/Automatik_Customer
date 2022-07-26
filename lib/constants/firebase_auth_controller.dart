@@ -5,7 +5,9 @@ import 'package:automatik_users_app/screens/Authentication%20Screen/Registration
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:path/path.dart';
 
 class AuthController extends GetxController {
   //AuthCOntroller.instance
@@ -31,26 +33,12 @@ class AuthController extends GetxController {
     }
   }
 
-  void register(String email, password) {
+  void register(String email, password) async{
     try {
-      auth.createUserWithEmailAndPassword(email: email, password: password);
-    } catch (e) {
-      Get.snackbar(
-        "About User",
-        "User message",
-        backgroundColor: Colors.redAccent,
-        snackPosition: SnackPosition.BOTTOM,
-        titleText: const Text(
-          "Account creation failed",
-          style: TextStyle(color: Colors.white),
-        ),
-        messageText: Text(
-          e.toString(),
-          style: const TextStyle(
-            color: Colors.white,
-          ),
-        ),
-      );
-    }
+     await auth.createUserWithEmailAndPassword(email: email, password: password);
+    } catchError((msg){
+      Navigator.pop(context);
+      Fluttertoast.showToast(msg: "Error:"+ msg.toString());
+    }).user;
   }
 }
