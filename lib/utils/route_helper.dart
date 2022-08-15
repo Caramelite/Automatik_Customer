@@ -1,9 +1,9 @@
-import 'package:automatik_users_app/screens/Welcome%20Screen/welcome_screen.dart';
 import 'package:get/get.dart';
 import '../screens/cart/cart_page.dart';
 import '../screens/homeScreens/home_screen.dart';
 import '../screens/repair/repair_details.dart';
 import '../screens/repair/repair_screen.dart';
+import '../screens/splashScreen/splash_screen.dart';
 
 class RouteHelper {
   static const String initial = "/initial";
@@ -12,15 +12,15 @@ class RouteHelper {
   static const String repairDetails = "/repair-details";
   static const String cartPage = "/cart-page";
 
-  static String getInitial() => initial;
-  static String getsplashScreen() => splashScreen;
-  static String getRepairPage() => 'repairPage';
+  static String getInitial() => '$initial';
+  static String getsplashScreen() => '$splashScreen';
+  static String getRepairPage() => '$repairPage';
   static String getRepairDetails(int pageId, String page) => '$repairDetails?pageId=$pageId&page=$page';
-  static String getCartPage() => 'cartPage';
+  static String getCartPage() => '$cartPage';
 
 
   static List<GetPage> routes = [
-    GetPage(name: splashScreen, page : ()=> const WelcomeScreen()),
+    GetPage(name: splashScreen, page : ()=> const MySplashScreen()),
     GetPage(name: initial, page : ()=> const HomeScreen()),
 
     GetPage(name: repairPage, page: () {
@@ -35,7 +35,7 @@ class RouteHelper {
     }, transition: Transition.fadeIn),
 
     GetPage(name: cartPage, page: () {
-      return const CartPage();
+      return CartPage();
     }, transition: Transition.fadeIn),
   ];
 }
