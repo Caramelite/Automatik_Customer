@@ -6,8 +6,7 @@ import '../../widgets/app_icon.dart';
 import '../../widgets/dimensions.dart';
 import '../../widgets/profile_widget.dart';
 import '../../widgets/small_text.dart';
-import '../Authentication Screen/Log In Screen/login_screen.dart';
-
+import '../auth_screen/login_screen.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -99,7 +98,7 @@ class ProfilePage extends StatelessWidget {
                    GestureDetector(
                      onTap: (){
                        FirebaseAuth.instance.signOut();
-                       Get.to(() => const LoginScreen());
+                       Get.to(() => LoginScreen());
                      },
                      child: ProfileWidget(
                          appIcon: const AppIcon(icon: Icons.logout,

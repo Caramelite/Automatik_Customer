@@ -1,22 +1,29 @@
-import 'package:automatik_users_app/screens/Authentication%20Screen/Log%20In%20Screen/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
-
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'controllers/cart_controller.dart';
+import 'controllers/firebase_auth_controller.dart';
+import 'infoHandler/app_info.dart';
+import 'global/helper/dependencies.dart' as dependency;
+import 'utils/route_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await dependency.init();
+  await Firebase.initializeApp().then((value) => Get.put(AuthController()));
+  Get.find<CartController>().getCartData();
 
   runApp(
       MyApp(
-        child : MaterialApp(
-          title: 'Customer App',
-          theme: ThemeData(
-          primarySwatch: Colors.blue,
+        child : ChangeNotifierProvider(
+          create: (context) => AppInfo(),
+          child: GetMaterialApp(
+            title: 'Customer App',
+              debugShowCheckedModeBanner: false,
+            initialRoute: RouteHelper.getsplashScreen(),
+            getPages: RouteHelper.routes,
           ),
-            debugShowCheckedModeBanner: false,
-          home: const LoginScreen(),
         )
       )
   );
@@ -27,6 +34,11 @@ class MyApp extends StatefulWidget
 {
   final Widget? child;
   MyApp({this.child});
+
+  static void restartApp(BuildContext context)
+  {
+    context.findAncestorStateOfType<_MyAppState>()!.restartApp();
+  }
 
   @override
   State<MyApp> createState() => _MyAppState();
