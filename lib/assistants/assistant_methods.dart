@@ -1,12 +1,10 @@
 import 'package:automatik_users_app/assistants/request_assistant.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-import '../global/global.dart';
 import '../global/map_key.dart';
 import '../infoHandler/app_info.dart';
 import '../models/directions.dart';
-import '../models/user_model.dart';
+
 
 class AssistantMethods
 {
@@ -35,19 +33,19 @@ class AssistantMethods
     return humanRedableAddress;
   }
 
-  static void readCurrentOnLineUserInfo() async
-  {
-    currentFirebaseUser = fAuth.currentUser;
+  // static void readCurrentOnLineUserInfo() async
+  // {
+  //   currentFirebaseUser = fAuth.currentUser;
 
-    DatabaseReference customerRef = FirebaseDatabase.instance.ref()
-        .child("customer").child(currentFirebaseUser!.uid);
+  //   DatabaseReference customerRef = FirebaseDatabase.instance.ref()
+  //       .child("customer").child(currentFirebaseUser!.uid);
 
-    customerRef.once().then((snap)
-    {
-      if(snap.snapshot.value != null)
-      {
-        customerModelCurrentInfo = UserModel.fromSnapshot(snap.snapshot);
-      }
-    });
-  }
+  //   customerRef.once().then((snap)
+  //   {
+  //     if(snap.snapshot.value != null)
+  //     {
+  //       customerModelCurrentInfo = UserModel.fromSnapshot(snap.snapshot);
+  //     }
+  //   });
+  // }
 }

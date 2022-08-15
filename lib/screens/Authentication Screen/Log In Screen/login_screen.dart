@@ -1,7 +1,7 @@
-import 'package:automatik_users_app/global/global.dart';
+
+
 import 'package:automatik_users_app/screens/Authentication%20Screen/Registration%20Screen/registration_screen.dart';
-import 'package:automatik_users_app/screens/Splash%20Screen/splash_screen.dart';
-import 'package:automatik_users_app/widgets/progress_dialog.dart';
+import 'package:automatik_users_app/screens/homeScreens/home_screen.dart';
 import 'package:automatik_users_app/widgets/roundedbutton.dart';
 import 'package:automatik_users_app/widgets/textfield.dart';
 import 'package:automatik_users_app/widgets/validators.dart';
@@ -17,54 +17,15 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
   FocusNode emailFN = FocusNode();
   FocusNode passwordFN = FocusNode();
   bool hidePassword = true;
 
-  validateForm() {
-    if (!emailTextEditingController.text.contains("@")) {
-      Fluttertoast.showToast(msg: "Email Address is not valid.");
-    } else if (passwordTextEditingController.text.isEmpty) {
-      Fluttertoast.showToast(msg: "Password is required.");
-    } else {
-      loginCustomerNow();
-    }
-  }
-
-  loginCustomerNow() async {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext c) {
-          return ProgressDialog(message: "Processing... Please wait");
-        });
-
-    final User? firebaseUser = (await fAuth
-            .signInWithEmailAndPassword(
-                email: emailTextEditingController.text.trim(),
-                password: passwordTextEditingController.text.trim())
-            .catchError((msg) {
-      Navigator.pop(context);
-      Fluttertoast.showToast(msg: "Error: " + msg.toString());
-    }))
-        .user;
-
-    if (firebaseUser != null) {
-      currentFirebaseUser = firebaseUser;
-      Fluttertoast.showToast(msg: "Logged in Successfully!");
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (c) => const MySplashScreen(),
-        ),
-      );
-    } else {
-      Navigator.pop(context);
-      Fluttertoast.showToast(msg: "Account has not been created.");
-    }
-  }
+  final _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 30),
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Image.asset("images/Logo.png"),
+                child: Image.asset("assets/images/Logo.png"),
               ),
               const SizedBox(height: 10),
               TextFormField(
@@ -118,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: Colors.lightBlueAccent,
                 buttonTitle: 'LOGIN',
                 buttonOnPressed: () {
-                  validateForm();
+                  sigIn(emailTextEditingController.text, passwordTextEditingController.text);
                 },
               ),
               TextButton(
@@ -140,5 +101,19 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void sigIn(String email, String password) async {
+    if (_formKey.currentState!.validate()) {
+      await _auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((uid) => {
+                Fluttertoast.showToast(msg: "Login Successful"),
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => const HomeScreen()))
+              }).catchError((e){
+                Fluttertoast.showToast(msg: e!.message);
+              });
+    }
   }
 }

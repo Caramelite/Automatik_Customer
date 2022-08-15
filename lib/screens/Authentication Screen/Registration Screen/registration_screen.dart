@@ -1,6 +1,5 @@
-import 'package:automatik_users_app/constants/firebase_auth_controller.dart';
-import 'package:automatik_users_app/global/global.dart';
-import 'package:automatik_users_app/screens/Splash%20Screen/splash_screen.dart';
+import 'package:automatik_users_app/screens/homeScreens/home_screen.dart';
+import 'package:automatik_users_app/services/auth_service.dart';
 import 'package:automatik_users_app/widgets/progress_dialog.dart';
 import 'package:automatik_users_app/widgets/roundedbutton.dart';
 import 'package:automatik_users_app/widgets/textfield.dart';
@@ -17,7 +16,6 @@ class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _SignUpScreenState createState() => _SignUpScreenState();
 }
 
@@ -50,61 +48,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   );
   ScrollController scrollController = ScrollController();
   final formKey = GlobalKey<FormState>();
-
-  validateForm() {
-    if (firstNameC.text.length < 3) {
-      Fluttertoast.showToast(msg: "Name must be at least 3 characters.");
-    } else if (!emailC.text.contains("@")) {
-      Fluttertoast.showToast(msg: "Email Address is not valid.");
-    } else if (phoneC.text.isEmpty) {
-      Fluttertoast.showToast(msg: "Phone Number is mandatory.");
-    } else if (pass1C.text.length < 6) {
-      Fluttertoast.showToast(msg: "Password must be at least 6 characters");
-    } else {
-      saveCustomerInfoNow();
-    }
-  }
-
-  saveCustomerInfoNow() async {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext c) {
-          return ProgressDialog(message: "Processing... Please wait");
-        });
-
-    final User? firebaseUser = (await fAuth
-            .createUserWithEmailAndPassword(
-                email: emailC.text.trim(), password: pass1C.text.trim())
-            .catchError((msg) {
-      Navigator.pop(context);
-      Fluttertoast.showToast(msg: "Error: " + msg.toString());
-    }))
-        .user;
-
-    if (firebaseUser != null) {
-      Map customerMap = {
-        "id": firebaseUser.uid,
-        "name": firstNameC.text.trim(),
-        "email": emailC.text.trim(),
-        "phone": phoneC.text.trim(),
-      };
-
-      DatabaseReference customerRef =
-          FirebaseDatabase.instance.ref().child("customer");
-      customerRef.child(firebaseUser.uid).set(customerMap);
-
-      currentFirebaseUser = firebaseUser;
-      Fluttertoast.showToast(msg: "Account has been created!");
-      // ignore: use_build_context_synchronously
-      Navigator.push(
-          context, MaterialPageRoute(builder: (c) => const MySplashScreen()));
-    } else {
-      // ignore: use_build_context_synchronously
-      Navigator.pop(context);
-      Fluttertoast.showToast(msg: "Account has not been created.");
-    }
-  }
 
   @override
   void dispose() {
@@ -289,12 +232,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Container(
                       margin: const EdgeInsets.only(top: 16.0),
                       child: RoundedButton(
-                          buttonTitle: 'Register',
-                          color: Colors.blueAccent,
-                          buttonOnPressed: () {
-                            AuthController.instance.register(
-                                emailC.text.trim(), pass1C.text.trim());
-                          }),
+                        buttonTitle: 'Register',
+                        color: Colors.blueAccent,
+                        buttonOnPressed: () async {
+                          await AuthController().signUpUser(firstNameC.text,
+                              lastNameC.text, emailC.text, pass2C.text);
+                        },
+                      ),
                     )
                   ],
                 )),

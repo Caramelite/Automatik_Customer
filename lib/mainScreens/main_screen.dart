@@ -1,4 +1,3 @@
-import 'package:automatik_users_app/global/global.dart';
 import 'package:automatik_users_app/screens/Authentication%20Screen/Log%20In%20Screen/login_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
         child: const Text("Logout"),
         onPressed: ()
         {
-          fAuth.signOut();
+         // fAuth.signOut();
           Navigator.push(context, MaterialPageRoute(builder: (c) => const LoginScreen()));
         },
       ),
