@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List pages = [
     const RepairBodyPage(),
-    const SignUpScreen(),
+    SignUpScreen(),
     const CartHistory(),
     const ProfilePage()
   ];
