@@ -11,15 +11,7 @@ class ProfileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-
       padding: EdgeInsets.only(top: Dimensions.height10, bottom: Dimensions.height10, left: Dimensions.width20, right: Dimensions.width20),
-          child: Row(
-        children: [
-          appIcon,
-          SizedBox(width: Dimensions.width20),
-          smallText
-        ],
-    ),
       decoration: BoxDecoration(
           color: Colors.white,
         boxShadow: [
@@ -29,6 +21,12 @@ class ProfileWidget extends StatelessWidget {
             color: Colors.grey.withOpacity(0.2)
           )
         ]
+      ), child: Row(
+        children: [
+          appIcon,
+          SizedBox(width: Dimensions.width20),
+          smallText
+        ],
       )
     );
   }

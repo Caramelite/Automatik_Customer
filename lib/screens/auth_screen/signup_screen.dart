@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:automatik_users_app/widgets/roundedbutton.dart';
 import 'package:automatik_users_app/widgets/textfield.dart';
 import 'package:automatik_users_app/widgets/validators.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../global/services/auth_service.dart';
 import '../../widgets/dimensions.dart';
+import '../homeScreens/home_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -15,6 +20,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  PlatformFile? pickedFile;
   late String profileLink;
   late String licenseLink;
   bool showSpinner = false;
@@ -66,12 +72,49 @@ class _SignUpScreenState extends State<SignUpScreen> {
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            SizedBox(height: Dimensions.screenHeight*0.1),
-            const CircleAvatar(
+            SizedBox(height: Dimensions.screenHeight*0.03),
+            /*const CircleAvatar(
               backgroundColor: Colors.white,
               radius: 80,
               backgroundImage: AssetImage("assets/images/Logo.png"),
+            ),*/
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 20,
+                    offset: const Offset(0, 5),
+                  )
+                ],
+              ),
+              margin: const EdgeInsets.fromLTRB(25, 50, 25, 10),
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              alignment: Alignment.center,
+              child: InkWell(
+                onTap: () {
+                  _getImage();
+                },
+                child: CircleAvatar(
+                  radius: MediaQuery.of(context).size.width * 0.20,
+                  backgroundColor: Colors.white,
+                  backgroundImage: imageXFile == null
+                      ? null
+                      : FileImage(
+                    File(imageXFile!.path),
+                  ),
+                  child: imageXFile == null
+                      ? Icon(
+                    Icons.person_add_alt_1,
+                    size: MediaQuery.of(context).size.width * 0.20,
+                    color: Colors.grey,
+                  )
+                      : null,
+                ),
+              ),
             ),
+
             SizedBox(height: Dimensions.height20+Dimensions.height10),
             Container(
               margin: EdgeInsets.only(left: Dimensions.height20, right: Dimensions.height20),
@@ -286,8 +329,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 buttonTitle: 'Register',
                 color: Colors.blueAccent,
                 buttonOnPressed: () async {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => const HomeScreen()));
                   await AuthController().signUpUser(nameC.text, addressC.text,
-                       emailC.text, pass2C.text);
+                       emailC.text, pass2C.text, phoneC.text);
                 },
               ),
             ),
@@ -295,5 +340,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  //image picker
+  XFile? imageXFile;
+  final ImagePicker _picker = ImagePicker();
+
+//function for getting image
+  Future<void> _getImage() async {
+    imageXFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      imageXFile;
+    });
   }
 }
