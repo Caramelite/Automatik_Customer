@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../utils/constant.dart';
@@ -15,7 +14,7 @@ class AuthController {
           password.isNotEmpty) {
         UserCredential cred = await firebaseAuth.createUserWithEmailAndPassword(
             email: email, password: password);
-        firebaseStore.collection('Customers').doc(cred.user!.uid).set({
+        firebaseStore.collection('customers').doc(cred.user!.uid).set({
           'Name': name,
           'Address': address,
           'Email': email,

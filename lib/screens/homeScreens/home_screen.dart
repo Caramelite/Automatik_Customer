@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const RepairBodyPage(),
     const SignUpScreen(),
     const CartHistory(),
-    ProfilePage()
+    const ProfilePage()
   ];
 
   void onTapNav(int index){

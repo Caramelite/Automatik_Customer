@@ -50,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance.collection('Customers').where('Email', isEqualTo: loggedInUser!.email).snapshots(),
+                    stream: FirebaseFirestore.instance.collection('customers').where('Email', isEqualTo: loggedInUser!.email).snapshots(),
                     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                       if(!snapshot.hasData) return const Text("Loading...");
                       return ListView(
