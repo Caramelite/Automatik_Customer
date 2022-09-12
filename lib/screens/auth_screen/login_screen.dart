@@ -7,6 +7,9 @@ import 'package:automatik_users_app/widgets/validators.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+
+import '../../global/services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -77,8 +80,18 @@ class _LoginScreenState extends State<LoginScreen> {
               RoundedButton(
                 color: Colors.lightBlueAccent,
                 buttonTitle: 'LOGIN',
-                buttonOnPressed: () {
-                  sigIn(emailTextEditingController.text, passwordTextEditingController.text);
+                buttonOnPressed: () async {
+                  final message = await AuthController().login(
+                      email: emailTextEditingController.text,
+                      password: passwordTextEditingController.text);
+                  if(message!.contains('Success')) {
+                    Get.to(() => const HomeScreen());
+                  }
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(message),
+                    ),
+                  );
                 },
               ),
               TextButton(
@@ -100,19 +113,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-
-  void sigIn(String email, String password) async {
-    if (_formKey.currentState!.validate()) {
-      await _auth
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((uid) => {
-        Fluttertoast.showToast(msg: "Login Successful"),
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const HomeScreen()))
-      }).catchError((e){
-        Fluttertoast.showToast(msg: e!.message);
-      });
-    }
   }
 }
