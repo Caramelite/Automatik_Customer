@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../assistants/assistant_methods.dart';
 import '../../controllers/repair_details_controller.dart';
 import '../../global/global.dart';
 import '../auth_screen/login_screen.dart';
@@ -31,7 +30,7 @@ class _MySplashScreenState extends State<MySplashScreen> {
       }
       else
       {
-        Navigator.push(context, MaterialPageRoute(builder: (c) => LoginScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (c) => const LoginScreen()));
       }
     });
   }
