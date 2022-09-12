@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../utils/constant.dart';
 
 class AuthController {
+  static final FirebaseFirestore _db = FirebaseFirestore.instance;
+
   Future<String> signUpUser(
       String name, String address, String email, String password, String phone) async {
     String res = 'some error occured';
@@ -30,24 +33,31 @@ class AuthController {
     }
     return res;
   }
-
-  // GET UID
-  Future<String> getCurrentUID() async {
-    return ( firebaseAuth.currentUser!).uid;
-  }
-
-  // GET CURRENT USER
-  Future getCurrentUser() async {
-    return firebaseAuth.currentUser!;
-  }
-
   // Sign Out
   signOut() {
     return firebaseAuth.signOut();
   }
 
-  // Reset Password
-  Future sendPasswordResetEmail(String email) async {
-    return firebaseAuth.sendPasswordResetEmail(email: email);
+  Future<String?> login({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return 'Success';
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        return 'No user found for that email.';
+      } else if (e.code == 'wrong-password') {
+        return 'Wrong password provided for that user.';
+      } else {
+        return e.message;
+      }
+    } catch (e) {
+      return e.toString();
+    }
   }
 }

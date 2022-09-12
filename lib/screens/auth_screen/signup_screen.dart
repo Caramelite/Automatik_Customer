@@ -1,19 +1,14 @@
-import 'dart:io';
-
 import 'package:automatik_users_app/widgets/roundedbutton.dart';
 import 'package:automatik_users_app/widgets/textfield.dart';
 import 'package:automatik_users_app/widgets/validators.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 import '../../global/services/auth_service.dart';
 import '../../widgets/dimensions.dart';
-import '../homeScreens/home_screen.dart';
 import '../splashScreen/splash_screen.dart';
+import 'login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -23,10 +18,6 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  String? imageUrl;
-  PlatformFile? pickedFile;
-  late String profileLink;
-  late String licenseLink;
   bool showSpinner = false;
   late String email;
   late String password;
@@ -34,23 +25,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController nameC = TextEditingController();
   TextEditingController addressC = TextEditingController();
   TextEditingController phoneC = TextEditingController();
-  TextEditingController licenseC = TextEditingController();
   TextEditingController pass1C = TextEditingController();
   TextEditingController pass2C = TextEditingController();
   FocusNode emailFN = FocusNode();
   FocusNode nameFN = FocusNode();
   FocusNode addressFN = FocusNode();
   FocusNode phoneFN = FocusNode();
-  FocusNode licenseFN = FocusNode();
   FocusNode pass1FN = FocusNode();
   FocusNode pass2FN = FocusNode();
-  FocusNode licensePhotoFN = FocusNode();
   bool hidePassword = true;
   bool hidePassword1 = true;
-  DateTime expiryDate = DateTime.now();
-  DateTime minimumDate = DateTime.now().subtract(
-    const Duration(days: 0),
-  );
+
   ScrollController scrollController = ScrollController();
   final formKey = GlobalKey<FormState>();
 
@@ -60,43 +45,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     nameC.dispose();
     addressC.dispose();
     phoneC.dispose();
-    licenseC.dispose();
     pass1C.dispose();
     pass2C.dispose();
     scrollController.dispose();
 
     super.dispose();
-  }
-
-  uploadImage() async {
-    final _firebaseStorage = FirebaseStorage.instance;
-    final _imagePicker = ImagePicker();
-    PickedFile image;
-    //Check Permissions
-    await Permission.photos.request();
-
-    var permissionStatus = await Permission.photos.status;
-
-    if (permissionStatus.isGranted){
-      //Select Image
-      image = (await _imagePicker.getImage(source: ImageSource.gallery))!;
-      var file = File(image.path);
-
-      if (image != null){
-        //Upload to Firebase
-        var snapshot = await _firebaseStorage.ref()
-            .child('images/imageName')
-            .putFile(file);
-        var downloadUrl = await snapshot.ref.getDownloadURL();
-        setState(() {
-          imageUrl = downloadUrl;
-        });
-      } else {
-        print('No Image Path Received');
-      }
-    } else {
-      print('Permission not granted. Try Again with permission access');
-    }
   }
 
   @override
@@ -111,7 +64,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ElevatedButton(
               child: const Text("Upload Image", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
               onPressed: (){
-                uploadImage();
               },
             ),
             SizedBox(height: Dimensions.height20+Dimensions.height10),
@@ -334,6 +286,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                        emailC.text, pass2C.text, phoneC.text);
                 },
               ),
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Alredy have an account?",  style: TextStyle(color: Colors.grey[700]),),
+                TextButton(
+                  child: Text("Login here",
+                    style: TextStyle(color: Colors.grey[850]),
+                  ),
+                  onPressed: ()
+                  {
+                    Navigator.push(context, MaterialPageRoute(builder: (c) => const LoginScreen()));
+                  },
+                )
+              ],
             ),
           ],
         ),
