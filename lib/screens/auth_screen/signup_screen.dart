@@ -1,14 +1,20 @@
+import 'dart:io';
+
 import 'package:automatik_users_app/widgets/roundedbutton.dart';
 import 'package:automatik_users_app/widgets/textfield.dart';
 import 'package:automatik_users_app/widgets/validators.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 import '../../global/services/auth_service.dart';
 import '../../widgets/dimensions.dart';
 import '../splashScreen/splash_screen.dart';
 import 'login_screen.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -52,6 +58,60 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
+
+  firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
+  User? user = FirebaseAuth.instance.currentUser;
+
+  File? _photo;
+  final ImagePicker _picker = ImagePicker();
+  String? imageUrl;
+
+  Future imgFromGallery() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _photo = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future imgFromCamera() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _photo = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future uploadFile() async {
+    if (_photo == null) return;
+    final fileName = basename(_photo!.path);
+    const destination = 'Images/CustProfilePictures/';
+
+    try {
+      final ref = firebase_storage.FirebaseStorage.instance
+          .ref(destination)
+          .child(fileName);
+      await ref.putFile(_photo!);
+
+      //IMAGE URL
+      imageUrl = await ref.getDownloadURL();
+      await AuthController().signUpUser(nameC.text, addressC.text,
+          emailC.text, pass2C.text, phoneC.text, imageUrl!);
+      Get.to(() => const MySplashScreen());
+    } catch (e) {
+      print('error occurred');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,11 +120,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            SizedBox(height: Dimensions.screenHeight*0.05),
-            ElevatedButton(
-              child: const Text("Upload Image", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
-              onPressed: (){
-              },
+            SizedBox(height: Dimensions.screenHeight*0.07),
+            Center(
+              child: GestureDetector(
+                onTap: () {
+                  _showPicker(context);
+                },
+                child: CircleAvatar(
+                  radius: 55,
+                  backgroundColor: const Color(0xffFDCF09),
+                  child: _photo != null
+                      ? ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Image.file(
+                      _photo!,
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.fitHeight,
+                    ),
+                  )
+                      : Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(50)),
+                    width: 100,
+                    height: 100,
+                    child: Icon(
+                      Icons.camera_alt,
+                      color: Colors.grey[800],
+                    ),
+                  ),
+                ),
+              ),
             ),
             SizedBox(height: Dimensions.height20+Dimensions.height10),
             Container(
@@ -280,10 +367,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 buttonTitle: 'Register',
                 color: Colors.blueAccent,
                 buttonOnPressed: () async {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => const MySplashScreen()));
-                  await AuthController().signUpUser(nameC.text, addressC.text,
-                       emailC.text, pass2C.text, phoneC.text);
+                  uploadFile();
                 },
               ),
             ),
@@ -307,5 +391,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                    leading: const Icon(Icons.photo_library),
+                    title: const Text('Gallery'),
+                    onTap: () {
+                      imgFromGallery();
+                      Navigator.of(context).pop();
+                    }),
+                ListTile(
+                  leading: const Icon(Icons.photo_camera),
+                  title: const Text('Camera'),
+                  onTap: () {
+                    imgFromCamera();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

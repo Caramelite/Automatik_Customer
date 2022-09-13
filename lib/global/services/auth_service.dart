@@ -7,13 +7,14 @@ class AuthController {
   static final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<String> signUpUser(
-      String name, String address, String email, String password, String phone) async {
+      String name, String address, String email, String password, String phone, String image) async {
     String res = 'some error occured';
     try {
       if (name.isNotEmpty &&
           address.isNotEmpty &&
           email.isNotEmpty &&
           phone.isNotEmpty &&
+          image.isNotEmpty &&
           password.isNotEmpty) {
         UserCredential cred = await firebaseAuth.createUserWithEmailAndPassword(
             email: email, password: password);
@@ -22,6 +23,7 @@ class AuthController {
           'Address': address,
           'Email': email,
           'Phone': phone,
+          'ProfileImage': image,
         });
         print(cred.user!.email);
         res = 'success';
