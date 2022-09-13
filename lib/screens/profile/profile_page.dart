@@ -64,12 +64,16 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: snapshot.data!.docs.map((DocumentSnapshot snap) {
                         return  Column(
                           children: [
-                            //profile icon
-                            const AppIcon(icon: Icons.person,
-                              backgroundColor: Colors.blue,
-                              iconColor: Colors.white,
-                              iconSize: 85,
-                              size: 130,
+                            CircleAvatar(
+                                radius: 85,
+                                backgroundColor: Colors.blue,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: Image.network(
+                                    snap['ProfileImage'],
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
                             ),
                             SizedBox(height: Dimensions.height20),
                             ProfileWidget(
